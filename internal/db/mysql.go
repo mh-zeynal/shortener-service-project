@@ -23,9 +23,13 @@ func MakeDatabase(user string, pass string, dbname string)  {
 	}
 }
 
-func AddNewRow(short string, long string){
+func AddNewRow(short string, long string)  {
 	temp := model.URL{Short: short, Long: long, Date: time.Now().String()}
 	_ = db.Create(&temp)
+}
+
+func DeleteRow(id int)  {
+	_ = db.Delete(&model.URL{}, id)
 }
 
 func GetRowViaLongUrl(long string) model.URL {
@@ -65,6 +69,19 @@ func IsLongAvailable(long string) bool {
 		var user model.URL
 		_ = db.ScanRows(rows, &user)
 		if user.Long == long {
+			return true
+		}
+	}
+	return false
+}
+
+func IsShortAvailable(short string) bool {
+	rows, _ := db.Model(&model.URL{}).Rows()
+	defer rows.Close()
+	for rows.Next() {
+		var user model.URL
+		_ = db.ScanRows(rows, &user)
+		if user.Short == short {
 			return true
 		}
 	}

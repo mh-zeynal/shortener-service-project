@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
+	"url/internal/dateExtractor"
 	"url/internal/db"
 	"url/internal/model"
 	"url/internal/urlGenerator"
@@ -33,6 +34,13 @@ func HandleRedirects(c echo.Context) error {
 	if !db.IsConnectionStablished() {
 		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
 	}
+	if !db.IsShortAvailable(shortUrl) {
+		return c.String(http.StatusNotFound, "this link is unavailable")
+	}
 	temp := db.GetRowViaShortUrl(shortUrl)
-	return c.Redirect(http.StatusMovedPermanently, temp.Long)
+	if dateExtractor.IsLinkExpired(temp.Date) {
+		db.DeleteRow(temp.Id)
+		return c.String(http.StatusForbidden, "this link is expired")
+	}
+	return c.Redirect(http.StatusSeeOther, temp.Long)
 }
