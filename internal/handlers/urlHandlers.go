@@ -44,3 +44,16 @@ func HandleRedirects(c echo.Context) error {
 	}
 	return c.Redirect(http.StatusSeeOther, temp.Long)
 }
+
+func HandleAdminAccess(c echo.Context) error {
+	user := c.QueryParam("u")
+	pass := c.QueryParam("p")
+	if !(user == "mh" && pass == "zz") {
+		return c.String(http.StatusBadRequest, "access denied")
+	}
+	if !db.IsConnectionStablished() {
+		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
+	}
+	rows := *db.GetAllRows()
+	return c.JSON(http.StatusOK, rows)
+}

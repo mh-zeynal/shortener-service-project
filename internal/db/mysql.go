@@ -32,6 +32,12 @@ func DeleteRow(id int)  {
 	_ = db.Delete(&model.URL{}, id)
 }
 
+func GetAllRows() *[]model.URL {
+	rows := make([]model.URL, 0)
+	_ = db.Find(&rows)
+	return &rows
+}
+
 func GetRowViaLongUrl(long string) model.URL {
 	temp := model.URL{}
 	rows, _ := db.Model(&model.URL{}).Rows()

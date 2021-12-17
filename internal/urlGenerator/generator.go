@@ -6,27 +6,21 @@ import (
 	"crypto/rand"
 )
 
-var (
-	lowers = "abcdefghijklmnopqrstuvwxyz"
-	uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	digits = "0123456789"
-	)
+var characters = "abcdefghijklmnopqrstuvwxyz" +
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+	"0123456789"
 
 func GenerateShortUrl() string {
 	var res string
-	for i := 0; i < 3; i++ {
-		res += getRandomCharacter(lowers)
-		res += getRandomCharacter(digits)
-		if i > 0 {
-			res += getRandomCharacter(uppers)
-		}
+	for i := 0; i < 8; i++ {
+		res += getRandomCharacter()
 	}
 	return res
 }
 
-func getRandomCharacter(str string) string {
-	t := big.NewInt(int64(len(str)))
+func getRandomCharacter() string {
+	t := big.NewInt(int64(len(characters)))
 	RandomCrypto, _ := rand.Int(rand.Reader, t)
 	randomized, _ := strconv.Atoi(RandomCrypto.String())
-	return str[randomized:randomized + 1]
+	return characters[randomized:randomized + 1]
 }

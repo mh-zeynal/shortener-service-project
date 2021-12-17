@@ -31,6 +31,7 @@ var runCmd = &cobra.Command{
 		e := echo.New()
 		e.POST("/shorten", handlers.HandleShortener)
 		e.GET("/:s", handlers.HandleRedirects)
+		e.GET("/admin", handlers.HandleAdminAccess)
 		e.Logger.Fatal(e.Start(":9090"))
 	},
 }
