@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
-	"url/internal/dateExtractor"
-	"url/internal/db"
-	"url/internal/model"
-	"url/internal/urlGenerator"
+	"back-end/dateExtractor"
+	"back-end/db"
+	"back-end/model"
+	"back-end/urlGenerator"
 )
 
 func HandleShortener(c echo.Context) error {
 	temp := model.Input{}
 	err := json.NewDecoder(c.Request().Body).Decode(&temp)
-	if !db.IsConnectionStablished() {
+	if !db.IsConnectionEstablished() {
 		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
 	}
 	if err != nil {
@@ -31,7 +31,7 @@ func HandleShortener(c echo.Context) error {
 
 func HandleRedirects(c echo.Context) error {
 	shortUrl := c.Param("s")
-	if !db.IsConnectionStablished() {
+	if !db.IsConnectionEstablished() {
 		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
 	}
 	if !db.IsShortAvailable(shortUrl) {
@@ -39,7 +39,6 @@ func HandleRedirects(c echo.Context) error {
 	}
 	temp := db.GetRowViaShortUrl(shortUrl)
 	if dateExtractor.IsLinkExpired(temp.Date) {
-		db.DeleteRow(temp.Id)
 		return c.String(http.StatusForbidden, "this link is expired")
 	}
 	return c.Redirect(http.StatusSeeOther, temp.Long)
@@ -51,7 +50,7 @@ func HandleAdminAccess(c echo.Context) error {
 	if !(user == "mh" && pass == "zz") {
 		return c.String(http.StatusBadRequest, "access denied")
 	}
-	if !db.IsConnectionStablished() {
+	if !db.IsConnectionEstablished() {
 		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
 	}
 	rows := *db.GetAllRows()

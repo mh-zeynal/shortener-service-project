@@ -18,5 +18,5 @@ func IsLinkExpired(dateTime string) bool {
 	nanosec, _ := strconv.Atoi(strings.Split(strings.Split(dateTime[space + 1:plus - 1], ":")[2], ".")[1])
 	newTime    := time.Date(year, time.Month(month), day, hour, minute, second, nanosec, time.UTC)
 	now        := time.Now()
-	return newTime.Sub(now).Hours() >= 72
+	return newTime.Sub(now).Hours() >= 30 * 24;
 }

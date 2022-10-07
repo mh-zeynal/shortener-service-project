@@ -5,6 +5,8 @@ type URL struct {
 	Short string `json:"short"`
 	Long string  `json:"long"`
 	Date string  `json:"date"`
+	description string `json:"description"`
+	name string `json:"name"`
 }
 
 func (u URL) TableName() string {

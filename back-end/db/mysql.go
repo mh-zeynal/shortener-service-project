@@ -5,12 +5,12 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/driver/mysql"
 	"time"
-	"url/internal/model"
+	"back-end/model"
 )
 
 var db *gorm.DB
 
-func IsConnectionStablished() bool {
+func IsConnectionEstablished() bool {
 	return db != nil
 }
 
