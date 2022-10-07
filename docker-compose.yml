@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  angular_app:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - go_service
+  
+  go_service:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+    ports:
+      - "9090:9090"
+  #   depends_on:
+  #     - db
+
+  # db:
+  #   image: mysql
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: m@96@s97
+  #     MYSQL_DATABASE: host.docker.internal
+  #   volumes:
+  #     - /var/run/mysqld:/host/mysqld
