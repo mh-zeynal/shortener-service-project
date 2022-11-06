@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 FROM golang:1.16-alpine
 ADD . /go/src/back-end
 WORKDIR /go/src/back-end

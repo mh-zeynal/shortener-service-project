@@ -17,15 +17,17 @@ services:
     - "host.docker.internal:host-gateway"
     ports:
       - "9090:9090"
-  #   depends_on:
-  #     - db
+    depends_on:
+      - db
 
-  # db:
-  #   image: mysql
-  #   ports:
-  #     - "3306:3306"
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: m@96@s97
-  #     MYSQL_DATABASE: host.docker.internal
-  #   volumes:
-  #     - /var/run/mysqld:/host/mysqld
+  db:
+    image: mysql
+    ports:
+      - "3440:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: m1961s97
+      MYSQL_DATABASE: gamedatabase
+    volumes:
+      # - mysql_data:/var/lib/mysql
+      - /var/run/mysqld:/host/mysqld
+    command: --default-authentication-plugin=mysql_native_password
