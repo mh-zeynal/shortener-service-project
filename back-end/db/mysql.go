@@ -17,7 +17,7 @@ func IsConnectionEstablished() bool {
 func MakeDatabase(user string, pass string, dbname string)  {
 	dsn := user + ":" + pass + "@/" + dbname
 	// dsn := "http://root:m1961s97@localhost:3440/" + dbname
-	// dsn := "root:m1961s97@tcp(127.0.0.1:3440)/gamedatabase?charset=utf8mb4&parseTime=True&loc=Local"
+	// dsn := "root:m1961s97@tcp(db:3306)/gamedatabase?charset=utf8mb4&parseTime=True&loc=Local"
 	// dsn := "root:m1s961s97@host.docker.internal(db:3440)/" + dbname
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
