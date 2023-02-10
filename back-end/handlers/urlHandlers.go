@@ -4,60 +4,49 @@ import (
 	"back-end/dateExtractor"
 	"back-end/db"
 	"back-end/model"
-	"back-end/urlGenerator"
+	"back-end/utils"
+	"database/sql"
 	"encoding/json"
 	"fmt"
-	"net/http"
-	"time"
-
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo"
+	"net/http"
 )
 
 func HandleShortener(c echo.Context) error {
-	temp := model.Input{}
-	err := json.NewDecoder(c.Request().Body).Decode(&temp)
-	if !db.IsConnectionEstablished() {
-		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
-	}
+	body := model.Input{}
+	cookie, _ := c.Cookie("token")
+	err := json.NewDecoder(c.Request().Body).Decode(&body)
 	if err != nil {
 		fmt.Println("no json passed to handler")
 	}
-	if db.IsLongAvailable(temp.IntendedUrl) {
+	if db.IsOriginalUrlAvailable(body.IntendedUrl, "mh") {
+		url, _ := db.GetUrlByOriginal(body.IntendedUrl, "mh")
 		return c.String(http.StatusOK, "this url already exists:\n"+
-			"localhost:9090/"+db.GetRowViaLongUrl(temp.IntendedUrl).Short)
+			utils.GetVariable("DOMAIN_NAME")+url.Short_url)
 	}
-	short := urlGenerator.GenerateShortUrl()
-	db.AddNewRow(short, temp.IntendedUrl)
+	short := utils.GenerateShortUrl()
+	claims, error := utils.ExtractTokenClaimsFromCookie(*cookie)
+	user := &model.User{}
+	if error == nil {
+		user, err = db.GetUserByUsername(claims["usr"].(string))
+	}
+	db.InsertNewUrl(model.URL{Short_url: short,
+		Original_url: body.IntendedUrl, Name: body.Name,
+		User_id: user.User_Id})
 	return c.String(http.StatusOK, "shortened URL: localhost:9090/"+short)
 }
 
 func HandleRedirects(c echo.Context) error {
 	shortUrl := c.Param("s")
-	if !db.IsConnectionEstablished() {
-		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
-	}
-	if !db.IsShortAvailable(shortUrl) {
+	if !db.IsShortUrlAvailable(shortUrl, "mh") {
 		return c.String(http.StatusNotFound, "this link is unavailable")
 	}
-	temp := db.GetRowViaShortUrl(shortUrl)
-	if dateExtractor.IsLinkExpired(temp.Date) {
+	temp, _ := db.GetUrlByShortForm(shortUrl)
+	if dateExtractor.IsLinkExpired(temp.Created_at) {
 		return c.String(http.StatusForbidden, "this link is expired")
 	}
-	return c.Redirect(http.StatusSeeOther, temp.Long)
-}
-
-func HandleAdminAccess(c echo.Context) error {
-	user := c.QueryParam("u")
-	pass := c.QueryParam("p")
-	if !(user == "mh" && pass == "zz") {
-		return c.String(http.StatusBadRequest, "access denied")
-	}
-	if !db.IsConnectionEstablished() {
-		db.MakeDatabase("root", "m@96@s97", "gamedatabase")
-	}
-	rows := *db.GetAllRows()
-	return c.JSON(http.StatusOK, rows)
+	return c.Redirect(http.StatusSeeOther, temp.Original_url)
 }
 
 func SignUpUser(c echo.Context) error {
@@ -66,20 +55,30 @@ func SignUpUser(c echo.Context) error {
 	if err != nil {
 		fmt.Println("empty request body")
 	}
+	test, err := db.GetUserByUsername(tempUser.Username)
+	if err == sql.ErrNoRows || test == nil {
+		db.InsertNewUser(tempUser)
+	}
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Hour * 24 * 30).Unix()
 	claims["usr"] = tempUser.Username
-	tokenSigned, _ := token.SignedString([]byte("secret"))
-	c.SetCookie(generateCookie(c, "token", tokenSigned))
+	tokenSigned, _ := token.SignedString([]byte("mh_secret"))
+	c.SetCookie(utils.GenerateCookie(c, "token", tokenSigned))
 	return c.String(http.StatusOK, "user signed in")
 }
 
-func generateCookie(c echo.Context, cookieName string, cookieValue string) *http.Cookie {
-	cookie := new(http.Cookie)
-	cookie.Name = cookieName
-	cookie.Value = cookieValue
-	cookie.Path = "/"
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	return cookie
+func GetUserUrls(c echo.Context) error {
+	token, err := c.Cookie("token")
+	if err != nil {
+		return c.String(http.StatusUnauthorized, "user not logged in")
+	}
+	claims := jwt.MapClaims{}
+	_, err = jwt.ParseWithClaims(token.Value, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		return c.String(http.StatusUnauthorized, "user not logged in")
+	}
+	rows, err := db.GetUrlsByUsername(claims["usr"].(string))
+	return c.JSON(http.StatusOK, rows)
 }

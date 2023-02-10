@@ -1,17 +1,14 @@
 package model
 
+import (
+	"time"
+)
+
 type URL struct {
-	Id    int     `json:"id"`
-	Short string  `json:"short"`
-	Long  string  `json:"long"`
-	Date  string  `json:"date"`
-	Name  string  `json:"name"`
-	User_id int `json:"user_id"`
-	User User `json:"user"`
+	Id           int       `json:"id"`
+	Short_url    string    `json:"short_url"`
+	Original_url string    `json:"original_url"`
+	Name         string    `json:"name"`
+	Created_at   time.Time `json:"created_at"`
+	User_id      uint      `json:"user_id"`
 }
-
-func (u URL) TableName() string {
-	return "urls"
-}
-
-

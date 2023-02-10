@@ -1,4 +1,4 @@
-package urlGenerator
+package utils
 
 import (
 	"math/big"

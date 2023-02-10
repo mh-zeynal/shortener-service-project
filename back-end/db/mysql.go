@@ -8,19 +8,19 @@ import (
 	"back-end/model"
 )
 
-var db *gorm.DB
+var DB *sql.DB
 
-func IsConnectionEstablished() bool {
-	return db != nil
-}
-
-func MakeDatabase(user string, pass string, dbname string)  {
-	dsn := user + ":" + pass + "@/" + dbname
-	// dsn := "http://root:m1961s97@localhost:3440/" + dbname
-	// dsn := "root:m1961s97@tcp(db:3306)/gamedatabase?charset=utf8mb4&parseTime=True&loc=Local"
-	// dsn := "root:m1s961s97@host.docker.internal(db:3440)/" + dbname
+func MakeDbConnection() {
+	var dbUser = utils.GetVariable("DB_User")
+	//var dbPass = utils.GetVariable("DB_Pass")
+	//var dbCont = utils.GetVariable("DB_CONTAINER")
+	//var dbContPort = utils.GetVariable("DB_CONTAINER_PORT")
+	//var dbSchema = utils.GetVariable("DB_SCHEMA")
+	//dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	//	dbUser, dbPass, dbCont, dbContPort, dbSchema)
+	dsn := dbUser + ":" + "m@96@s97" + "@tcp(127.0.0.1:3306)/" + "gamedatabase?parseTime=true"
 	var err error
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		fmt.Println("database connection has failed")
 	}
