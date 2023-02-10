@@ -1,6 +1,6 @@
-package model;
+package model
 
 type ResponseMessage struct {
-	Message string `json:"message"`
-	link string `json:"link"`
+	Message         string `json:"message"`
+	DestinationLink string `json:"destinationLink"`
 }

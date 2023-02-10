@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"back-end/model"
 	"errors"
 	"fmt"
 	"net/http"
@@ -23,4 +24,12 @@ func ExtractTokenClaimsFromCookie(cookie http.Cookie) (jwt.MapClaims, error) {
 		return claims, nil
 	}
 	return nil, errors.New("something went wrong in parsing token")
+}
+
+func GenerateToken(userData model.User) (string, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["usr"] = userData.Username
+	tokenSigned, err := token.SignedString([]byte("mh_secret"))
+	return tokenSigned, err
 }

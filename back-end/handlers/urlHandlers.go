@@ -5,7 +5,6 @@ import (
 	"back-end/db"
 	"back-end/model"
 	"back-end/utils"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
@@ -49,24 +48,6 @@ func HandleRedirects(c echo.Context) error {
 	return c.Redirect(http.StatusSeeOther, temp.Original_url)
 }
 
-func SignUpUser(c echo.Context) error {
-	tempUser := model.User{}
-	err := json.NewDecoder(c.Request().Body).Decode(&tempUser)
-	if err != nil {
-		fmt.Println("empty request body")
-	}
-	test, err := db.GetUserByUsername(tempUser.Username)
-	if err == sql.ErrNoRows || test == nil {
-		db.InsertNewUser(tempUser)
-	}
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["usr"] = tempUser.Username
-	tokenSigned, _ := token.SignedString([]byte("mh_secret"))
-	c.SetCookie(utils.GenerateCookie(c, "token", tokenSigned))
-	return c.String(http.StatusOK, "user signed in")
-}
-
 func GetUserUrls(c echo.Context) error {
 	token, err := c.Cookie("token")
 	if err != nil {
@@ -74,7 +55,7 @@ func GetUserUrls(c echo.Context) error {
 	}
 	claims := jwt.MapClaims{}
 	_, err = jwt.ParseWithClaims(token.Value, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
+		return []byte("mh_secret"), nil
 	})
 	if err != nil {
 		return c.String(http.StatusUnauthorized, "user not logged in")
