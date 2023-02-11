@@ -1,9 +1,9 @@
 package utils
 
 import (
+	"crypto/rand"
 	"math/big"
 	"strconv"
-	"crypto/rand"
 )
 
 var characters = "abcdefghijklmnopqrstuvwxyz" +
@@ -22,5 +22,5 @@ func getRandomCharacter() string {
 	t := big.NewInt(int64(len(characters)))
 	RandomCrypto, _ := rand.Int(rand.Reader, t)
 	randomized, _ := strconv.Atoi(RandomCrypto.String())
-	return characters[randomized:randomized + 1]
+	return characters[randomized : randomized+1]
 }

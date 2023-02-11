@@ -19,7 +19,6 @@ func GetUserByUsername(username string) (*model.User, error) {
 	}
 	var user model.User
 	if rows.Next() {
-
 		err = rows.Scan(&user.User_Id, &user.Username,
 			&user.Password, &user.Email,
 			&user.Name, &user.Created_at)
@@ -60,6 +59,24 @@ func GetUrlsByUsername(username string) ([]model.URL, error) {
 		return nil, err
 	}
 	return urls, nil
+}
+
+func GetUserByEmail(email string) (*model.User, error) {
+	establishConnection()
+	row, err := DB.Query("SELECT * FROM service_users WHERE email = ?", email)
+	if err != nil {
+		return nil, err
+	}
+	var user model.User
+	if row.Next() {
+		err = row.Scan(&user.User_Id, &user.Username,
+			&user.Password, &user.Email,
+			&user.Name, &user.Created_at)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 func GetUrlByShortForm(shortForm string) (*model.URL, error) {
