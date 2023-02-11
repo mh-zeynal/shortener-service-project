@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"back-end/constants"
 	"back-end/db"
 	"back-end/model"
 	"back-end/utils"
 	"database/sql"
-	"errors"
 	"github.com/labstack/echo"
 	"net/http"
 )
@@ -19,17 +19,17 @@ func SignUpUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, msg)
 	}
 	if userRecord, _ = db.GetUserByUsername(user.Username); userRecord != nil {
-		msg, _ = utils.ConvertResponseMessageToJson("this username is already taken", "")
+		msg, _ = utils.ConvertResponseMessageToJson(constants.DUPLICATE_USERNAME, "")
 		return c.JSON(http.StatusConflict, msg)
 	} else if userRecord, _ = db.GetUserByEmail(user.Email); userRecord != nil {
-		msg, _ = utils.ConvertResponseMessageToJson("another account exists with this email", "")
+		msg, _ = utils.ConvertResponseMessageToJson(constants.DUPLICATE_EMAIL, "")
 		return c.JSON(http.StatusConflict, msg)
 	} else if err == sql.ErrNoRows || userRecord == nil {
 		db.InsertNewUser(*user)
 	}
 	token, _ := utils.GenerateToken(*userRecord)
 	c.SetCookie(utils.GenerateCookie(c, "token", token))
-	msg, _ = utils.ConvertResponseMessageToJson("user signed in", "")
+	msg, _ = utils.ConvertResponseMessageToJson(constants.SUCCESSFULL_SIGNUP, "")
 	return c.JSON(http.StatusOK, msg)
 }
 
@@ -42,17 +42,15 @@ func LoginUser(c echo.Context) error {
 	}
 	userRecord, err := db.GetUserByUsername(user.Username)
 	if err == sql.ErrNoRows || userRecord == nil {
-		err = errors.New("no user with this username")
-		msg, _ = utils.ConvertResponseMessageToJson(err.Error(), "")
+		msg, _ = utils.ConvertResponseMessageToJson(constants.NO_MATCH_USERNAME, "")
 		return c.JSON(http.StatusUnauthorized, msg)
 	}
 	if user.Password != userRecord.Password {
-		err = errors.New("no user with this username")
-		msg, _ = utils.ConvertResponseMessageToJson(err.Error(), "")
+		msg, _ = utils.ConvertResponseMessageToJson(constants.NO_MATCH_PASSWORD, "")
 		return c.JSON(http.StatusUnauthorized, msg)
 	}
 	token, _ := utils.GenerateToken(*userRecord)
 	c.SetCookie(utils.GenerateCookie(c, "token", token))
-	msg, _ = utils.ConvertResponseMessageToJson("user logged in successfully", "")
+	msg, _ = utils.ConvertResponseMessageToJson(constants.SUCCESSFULL_LOGIN, "")
 	return c.JSON(http.StatusOK, msg)
 }
