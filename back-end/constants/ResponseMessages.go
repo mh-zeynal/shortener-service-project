@@ -9,7 +9,7 @@ const (
 	SUCCESSFULL_LOGIN  = "user logged in successfully"
 	UNAVAILABLE_LINK   = "this link is unavailable"
 	EXPIRED_LINK       = "this link has been expired"
-	UNAUTHORIZED_USER  = "user not logged in"
+	UNAUTHORIZED_USER  = "user has not logged in"
 	DUPLICATE_URL      = "this link is already available"
 	URL_SHORTENED      = "shortened url:"
 )

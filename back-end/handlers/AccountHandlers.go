@@ -27,7 +27,7 @@ func SignUpUser(c echo.Context) error {
 	} else if err == sql.ErrNoRows || userRecord == nil {
 		db.InsertNewUser(*user)
 	}
-	token, _ := utils.GenerateToken(*userRecord)
+	token, _ := utils.GenerateToken(*user)
 	c.SetCookie(utils.GenerateCookie(c, "token", token))
 	msg, _ = utils.ConvertResponseMessageToJson(constants.SUCCESSFULL_SIGNUP, "")
 	return c.JSON(http.StatusOK, msg)

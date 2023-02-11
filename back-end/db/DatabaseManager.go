@@ -1,6 +1,7 @@
 package db
 
 import (
+	"back-end/dateExtractor"
 	"back-end/model"
 )
 
@@ -14,6 +15,7 @@ func GetUserByUsername(username string) (*model.User, error) {
 	establishConnection()
 	rows, err := DB.Query("SELECT * FROM service_users WHERE username = ?",
 		username)
+	defer rows.Close()
 	if err != nil {
 		return nil, err
 	}
@@ -32,6 +34,7 @@ func GetUserByUsername(username string) (*model.User, error) {
 func GetUrlsByUserId(user_id uint) ([]model.URL, error) {
 	establishConnection()
 	rows, err := DB.Query("SELECT * FROM urls WHERE user_id = ?", user_id)
+	defer rows.Close()
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +49,13 @@ func GetUrlsByUserId(user_id uint) ([]model.URL, error) {
 	if err != nil {
 		return nil, err
 	}
-	return urls, err
+	var temp []model.URL
+	for _, url := range urls {
+		if !dateExtractor.IsLinkExpired(url.Created_at) {
+			temp = append(temp, url)
+		}
+	}
+	return temp, err
 }
 
 func GetUrlsByUsername(username string) ([]model.URL, error) {
@@ -64,6 +73,7 @@ func GetUrlsByUsername(username string) ([]model.URL, error) {
 func GetUserByEmail(email string) (*model.User, error) {
 	establishConnection()
 	row, err := DB.Query("SELECT * FROM service_users WHERE email = ?", email)
+	defer row.Close()
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +83,7 @@ func GetUserByEmail(email string) (*model.User, error) {
 			&user.Password, &user.Email,
 			&user.Name, &user.Created_at)
 	}
-	if err != nil {
+	if err != nil || (user == model.User{}) {
 		return nil, err
 	}
 	return &user, nil
@@ -82,6 +92,7 @@ func GetUserByEmail(email string) (*model.User, error) {
 func GetUrlByShortForm(shortForm string) (*model.URL, error) {
 	establishConnection()
 	row, err := DB.Query("SELECT * FROM urls WHERE short_url = ?", shortForm)
+	defer row.Close()
 	if err != nil {
 		return nil, err
 	}
@@ -102,8 +113,9 @@ func IsOriginalUrlAvailable(originalUrl string, username string) bool {
 	if err != nil {
 		return false
 	}
-	row, err := DB.Query("SELECT original_url FROM urls WHERE original_url = ? AND user_id = ?",
+	row, err := DB.Query("SELECT * FROM urls WHERE original_url = ? AND user_id = ?",
 		originalUrl, user.User_Id)
+	defer row.Close()
 	if err != nil {
 		return false
 	}
@@ -124,8 +136,9 @@ func IsShortUrlAvailable(shortUrl string, username string) bool {
 	if err != nil {
 		return false
 	}
-	row, err := DB.Query("SELECT short_url FROM urls WHERE short_url = ? AND user_id = ?",
+	row, err := DB.Query("SELECT * FROM urls WHERE short_url = ? AND user_id = ?",
 		shortUrl, user.User_Id)
+	defer row.Close()
 	if err != nil {
 		return false
 	}
@@ -148,6 +161,7 @@ func GetUrlByOriginal(original string, username string) (*model.URL, error) {
 	}
 	row, err := DB.Query("SELECT * FROM urls WHERE original_url = ? AND user_id = ?",
 		original, user.User_Id)
+	defer row.Close()
 	if err != nil {
 		return nil, err
 	}
