@@ -108,16 +108,16 @@ func GetUrlByShortForm(shortForm string) (*model.URL, error) {
 	return &temp, nil
 }
 
-func IsOriginalUrlAvailable(originalUrl string, username string) bool {
+func GetUrlByOriginalIfAvailable(originalUrl string, username string) (bool, *model.URL) {
 	user, err := GetUserByUsername(username)
 	if err != nil {
-		return false
+		return false, nil
 	}
 	row, err := DB.Query("SELECT * FROM urls WHERE original_url = ? AND user_id = ?",
 		originalUrl, user.User_Id)
 	defer row.Close()
 	if err != nil {
-		return false
+		return false, nil
 	}
 	var temp model.URL
 	if row.Next() {
@@ -126,21 +126,21 @@ func IsOriginalUrlAvailable(originalUrl string, username string) bool {
 			&temp.Created_at, &temp.User_id)
 	}
 	if (temp == model.URL{}) || err != nil {
-		return false
+		return false, nil
 	}
-	return true
+	return true, &temp
 }
 
-func IsShortUrlAvailable(shortUrl string, username string) bool {
+func GetUrlByShortIfAvailable(shortUrl string, username string) (bool, *model.URL) {
 	user, err := GetUserByUsername(username)
 	if err != nil {
-		return false
+		return false, nil
 	}
 	row, err := DB.Query("SELECT * FROM urls WHERE short_url = ? AND user_id = ?",
 		shortUrl, user.User_Id)
 	defer row.Close()
 	if err != nil {
-		return false
+		return false, nil
 	}
 	var temp model.URL
 	if row.Next() {
@@ -149,32 +149,9 @@ func IsShortUrlAvailable(shortUrl string, username string) bool {
 			&temp.Created_at, &temp.User_id)
 	}
 	if (temp == model.URL{}) || err != nil {
-		return false
+		return false, nil
 	}
-	return true
-}
-
-func GetUrlByOriginal(original string, username string) (*model.URL, error) {
-	user, err := GetUserByUsername(username)
-	if err != nil {
-		return nil, err
-	}
-	row, err := DB.Query("SELECT * FROM urls WHERE original_url = ? AND user_id = ?",
-		original, user.User_Id)
-	defer row.Close()
-	if err != nil {
-		return nil, err
-	}
-	var temp model.URL
-	if row.Next() {
-		err = row.Scan(&temp.Id, &temp.Short_url,
-			&temp.Original_url, &temp.Name,
-			&temp.Created_at, &temp.User_id)
-	}
-	if err != nil {
-		return nil, err
-	}
-	return &temp, nil
+	return true, &temp
 }
 
 func InsertNewUrl(newUrl model.URL) error {

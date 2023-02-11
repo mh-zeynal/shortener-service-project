@@ -22,11 +22,11 @@ func HandleShortener(c echo.Context) error {
 		fmt.Println("no json passed to handler")
 	}
 	var msg *string
-	if db.IsOriginalUrlAvailable(body.IntendedUrl, claims["usr"].(string)) {
-		url, _ := db.GetUrlByOriginal(body.IntendedUrl, claims["usr"].(string))
+	ok, url := db.GetUrlByOriginalIfAvailable(body.IntendedUrl, claims["usr"].(string))
+	if ok && (*url != model.URL{}) {
 		msg, _ = utils.ConvertResponseMessageToJson(constants.DUPLICATE_URL,
 			utils.GetVariable("DOMAIN_NAME")+url.Short_url)
-		return c.String(http.StatusOK, *msg)
+		return c.JSON(http.StatusOK, *msg)
 	}
 	short := utils.GenerateShortUrl()
 	newUrl := model.URL{Short_url: short,
@@ -44,16 +44,16 @@ func HandleRedirects(c echo.Context) error {
 	cookie, _ := c.Cookie("token")
 	claims, _ := utils.ExtractTokenClaimsFromCookie(*cookie)
 	var msg *string
-	if !db.IsShortUrlAvailable(shortUrl, claims["usr"].(string)) {
+	ok, url := db.GetUrlByShortIfAvailable(shortUrl, claims["usr"].(string))
+	if !ok {
 		msg, _ = utils.ConvertResponseMessageToJson(constants.UNAVAILABLE_LINK, "")
 		return c.String(http.StatusNotFound, *msg)
 	}
-	temp, _ := db.GetUrlByShortForm(shortUrl)
-	if dateExtractor.IsLinkExpired(temp.Created_at) {
+	if dateExtractor.IsLinkExpired(url.Created_at) {
 		msg, _ = utils.ConvertResponseMessageToJson(constants.EXPIRED_LINK, "")
 		return c.String(http.StatusForbidden, *msg)
 	}
-	return c.Redirect(http.StatusSeeOther, temp.Original_url)
+	return c.Redirect(http.StatusSeeOther, url.Original_url)
 }
 
 func GetUserUrls(c echo.Context) error {

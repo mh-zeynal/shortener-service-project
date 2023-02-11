@@ -17,10 +17,10 @@ func AuthenticateUser(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.JSON(http.StatusUnauthorized, *msg)
 		}
 		_, err := utils.ExtractTokenClaimsFromCookie(*cookie)
-		if err == nil {
-			return next(c)
+		if err != nil {
+			msg, _ = utils.ConvertResponseMessageToJson(constants.UNAUTHORIZED_USER, "")
+			return c.JSON(http.StatusUnauthorized, *msg)
 		}
-		msg, _ = utils.ConvertResponseMessageToJson(constants.UNAUTHORIZED_USER, "")
-		return c.JSON(http.StatusUnauthorized, *msg)
+		return next(c)
 	}
 }
