@@ -1,8 +1,8 @@
 package middleWares
 
 import (
+	"back-end/constants"
 	"back-end/utils"
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -11,14 +11,16 @@ import (
 func AuthenticateUser(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		cookie, _ := c.Cookie("token")
+		var msg *string
 		if cookie == nil {
-			return c.String(http.StatusUnauthorized, "unauthorized")
+			msg, _ = utils.ConvertResponseMessageToJson(constants.UNAUTHORIZED_USER, "")
+			return c.JSON(http.StatusUnauthorized, *msg)
 		}
-		claims, err := utils.ExtractTokenClaimsFromCookie(*cookie)
+		_, err := utils.ExtractTokenClaimsFromCookie(*cookie)
 		if err == nil {
-			fmt.Println(claims["usr"], claims["exp"])
 			return next(c)
 		}
-		return c.String(http.StatusUnauthorized, "unauthorized")
+		msg, _ = utils.ConvertResponseMessageToJson(constants.UNAUTHORIZED_USER, "")
+		return c.JSON(http.StatusUnauthorized, *msg)
 	}
 }
