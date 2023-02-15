@@ -1,0 +1,38 @@
+<div id="page-container">
+  <div id="header-bar">
+    <div>
+      <a href="#" id="page-logo">
+        <img src="./assets/service_logo.png" alt="logo">
+      </a>
+      <div></div>
+      <button type="button" id="profile-button"><img src="./assets/icons/profile.png" alt="profile"></button>
+    </div>
+  </div>
+  <div id="main-content-container">
+    <div id="dashboard-button-container">
+      <div>
+        <a class="dashboard-buttons" href="#">
+          <div>
+            <img src="./assets/icons/generate.png" alt="">
+            <strong>generate url</strong>
+          </div>
+        </a>
+        <a class="dashboard-buttons" href="#">
+          <div>
+            <img src="./assets/icons/link.png" alt="">
+            <strong>links</strong>
+          </div>
+        </a>
+        <a class="dashboard-buttons" href="#">
+          <div>
+            <img src="./assets/icons/info.png" alt="">
+            <strong>user info</strong>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div id="route-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

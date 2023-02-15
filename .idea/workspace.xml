@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="32e1d9b1-9259-470e-8dc2-e4fcf8c88af5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/back-end/db/mysql.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/db/mysql.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/handlers/urlHandlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/handlers/urlHandlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/middlewares/tokenMiddleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/middlewares/tokenMiddleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/model/url.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/model/url.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/urlGenerator/generator.go" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="C:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="ProjectId" id="2LUYSkxRxmG4MNBVw6QqoBTx2dy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/back-end" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="548" y="166" key="FileChooserDialogImpl" timestamp="1675927206623">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="548" y="166" key="FileChooserDialogImpl/0.0.1536.824/-1366.78.1366.728@0.0.1536.824" timestamp="1675927206622" />
+  </component>
+</project>
