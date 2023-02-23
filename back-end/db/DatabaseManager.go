@@ -42,7 +42,7 @@ func GetUrlsByUserId(user_id uint) ([]model.URL, error) {
 	for rows.Next() {
 		var temp model.URL
 		err = rows.Scan(&temp.Id, &temp.Short_url,
-			&temp.Original_url, &temp.Name,
+			&temp.Original_url, &temp.Title,
 			&temp.Created_at, &temp.User_id)
 		urls = append(urls, temp)
 	}
@@ -99,7 +99,7 @@ func GetUrlByShortForm(shortForm string) (*model.URL, error) {
 	var temp model.URL
 	if row.Next() {
 		err = row.Scan(&temp.Id, &temp.Short_url,
-			&temp.Original_url, &temp.Name,
+			&temp.Original_url, &temp.Title,
 			&temp.Created_at, &temp.User_id)
 	}
 	if err != nil {
@@ -122,7 +122,7 @@ func GetUrlByOriginalIfAvailable(originalUrl string, username string) (bool, *mo
 	var temp model.URL
 	if row.Next() {
 		err = row.Scan(&temp.Id, &temp.Short_url,
-			&temp.Original_url, &temp.Name,
+			&temp.Original_url, &temp.Title,
 			&temp.Created_at, &temp.User_id)
 	}
 	if (temp == model.URL{}) || err != nil {
@@ -145,7 +145,7 @@ func GetUrlByShortIfAvailable(shortUrl string, username string) (bool, *model.UR
 	var temp model.URL
 	if row.Next() {
 		err = row.Scan(&temp.Id, &temp.Short_url,
-			&temp.Original_url, &temp.Name,
+			&temp.Original_url, &temp.Title,
 			&temp.Created_at, &temp.User_id)
 	}
 	if (temp == model.URL{}) || err != nil {
@@ -158,7 +158,7 @@ func InsertNewUrl(newUrl model.URL) error {
 	establishConnection()
 	insert, err :=
 		DB.Query("INSERT INTO urls(short_url, original_url, name, user_id) VALUES (?, ?, ?, ?)",
-			newUrl.Short_url, newUrl.Original_url, newUrl.Name, newUrl.User_id)
+			newUrl.Short_url, newUrl.Original_url, newUrl.Title, newUrl.User_id)
 	defer insert.Close()
 	if err != nil {
 		return err

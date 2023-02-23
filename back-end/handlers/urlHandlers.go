@@ -22,7 +22,7 @@ func HandleShortener(c echo.Context) error {
 		fmt.Println("no json passed to handler")
 	}
 	var msg *string
-	ok, url := db.GetUrlByOriginalIfAvailable(body.IntendedUrl, claims["usr"].(string))
+	ok, url := db.GetUrlByOriginalIfAvailable(body.Url, claims["usr"].(string))
 	if ok && (*url != model.URL{}) {
 		msg, _ = utils.ConvertResponseMessageToJson(constants.DUPLICATE_URL,
 			utils.GetVariable("DOMAIN_NAME")+url.Short_url)
@@ -30,7 +30,7 @@ func HandleShortener(c echo.Context) error {
 	}
 	short := utils.GenerateShortUrl()
 	newUrl := model.URL{Short_url: short,
-		Original_url: body.IntendedUrl, Name: body.Name}
+		Original_url: body.Url, Title: body.Title}
 	user, _ := db.GetUserByUsername(claims["usr"].(string))
 	newUrl.User_id = user.User_Id
 	db.InsertNewUrl(newUrl)

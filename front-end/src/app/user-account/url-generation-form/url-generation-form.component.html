@@ -1,0 +1,32 @@
+<div id="link-generator-container">
+  <form [formGroup]="form" id="main-form">
+    <div>
+      <div id="mandatory-inputs">
+        <mat-form-field appearance="outline">
+          <mat-label>title</mat-label>
+          <input matInput type="text" formControlName="title" required>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>url</mat-label>
+          <input matInput type="text" formControlName="originalUrl" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>description(optional)</mat-label>
+        <input matInput type="text" formControlName="description">
+      </mat-form-field>
+      <div>
+        <button type="submit"
+                mat-raised-button color="primary"
+                (click)="submitForm()">shorten
+        </button>
+      </div>
+      <div id="short-url-container">
+        <div>
+          <input type="text" readonly autocomplete="off" id="short-url-input" #short_url>
+          <button type="button" id="copy-button" (click)="copyUrlToClipbaord()">copy</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
