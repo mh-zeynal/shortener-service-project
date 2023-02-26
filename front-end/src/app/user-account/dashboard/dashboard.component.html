@@ -4,7 +4,6 @@
       <a href="#" id="page-logo">
         <img src="./assets/service_logo.png" alt="logo">
       </a>
-      <div></div>
       <button type="button" id="profile-button"
               (click)="isUserDropdownOpen = !isUserDropdownOpen"
               cdkOverlayOrigin
@@ -16,13 +15,13 @@
   <div id="main-content-container">
     <div id="dashboard-button-container">
       <div>
-        <a class="dashboard-buttons" routerLink="/user/generate-url" routerLinkActive="active">
+        <a class="dashboard-buttons" routerLink="/user/generate-url" routerLinkActive="active" (click)="markAsSelected()">
           <div>
             <img src="./assets/icons/generate.png" alt="">
             <strong>generate url</strong>
           </div>
         </a>
-        <a class="dashboard-buttons" routerLink="#" routerLinkActive="active">
+        <a class="dashboard-buttons" routerLink="#" routerLinkActive="active" (click)="markAsSelected()">
           <div>
             <img src="./assets/icons/link.png" alt="">
             <strong>links</strong>

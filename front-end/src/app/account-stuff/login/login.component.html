@@ -1,0 +1,12 @@
+<form [formGroup]="form" class="account-container">
+  <mat-form-field appearance="outline">
+    <mat-label>username</mat-label>
+    <input matInput type="text" formControlName="username">
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>password</mat-label>
+    <input matInput type="password" formControlName="password">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="button" (click)="emitClientDataForm()">login</button>
+  <button mat-button color="warn" type="button" (click)="DoesClientHasAccount.emit(false)">don't have an account?</button>
+</form>

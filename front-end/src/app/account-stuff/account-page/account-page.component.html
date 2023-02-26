@@ -1,0 +1,14 @@
+<div id="horizontal-flex-page-container">
+  <div id="form-container">
+    <div *ngIf="hasAccount" class="account-type-container">
+      <app-login
+        (DoesClientHasAccount)="hasAccount = $event"
+        (formSubmit)="submitForm('/api/login', $event)"></app-login>
+    </div>
+    <div *ngIf="!hasAccount" class="account-type-container">
+      <app-signup
+        (DoesClientHasAccount)="hasAccount = $event"
+        (formSubmit)="submitForm('/api/signup', $event)"></app-signup>
+    </div>
+  </div>
+</div>
