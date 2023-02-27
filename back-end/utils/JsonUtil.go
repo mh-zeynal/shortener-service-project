@@ -16,12 +16,11 @@ func ConvertBodyToUser(c echo.Context) (*model.User, error) {
 	return &tempUser, nil
 }
 
-func ConvertResponseMessageToJson(message string, destination string) (*string, error) {
-	newMessage := model.ResponseMessage{Message: message, DestinationLink: destination}
-	b, err := json.Marshal(newMessage)
+func ConvertToLoginForm(c echo.Context) (*model.LoginForm, error) {
+	tempForm := model.LoginForm{}
+	err := json.NewDecoder(c.Request().Body).Decode(&tempForm)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("empty request body")
 	}
-	temp := string(b)
-	return &temp, nil
+	return &tempForm, nil
 }

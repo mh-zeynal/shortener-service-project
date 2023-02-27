@@ -10,7 +10,7 @@ func main() {
 	e := echo.New()
 	api := e.Group("/api")
 	api.POST("/login", handlers.LoginUser)
-	api.POST("/signUp", handlers.SignUpUser)
+	api.POST("/signup", handlers.SignUpUser)
 	api.GET("/:s", handlers.HandleRedirects, middleWares.AuthenticateUser)
 	api.GET("/user_urls", handlers.GetUserUrls, middleWares.AuthenticateUser)
 	api.POST("/shorten", handlers.HandleShortener, middleWares.AuthenticateUser)
