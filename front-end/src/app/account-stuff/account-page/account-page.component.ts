@@ -18,9 +18,9 @@ export class AccountPageComponent implements OnInit {
   }
 
   submitForm(url: string, event: FormGroup){
-    debugger
     this.http.sendPostRequest(url, event.value).subscribe(value => {
-      console.log(value);
+      debugger
+      console.log(value.message);
     })
   }
 

@@ -15,6 +15,6 @@
     <mat-label>name</mat-label>
     <input matInput type="text" formControlName="name">
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">signup</button>
+  <button mat-raised-button color="primary" type="button" (click)="emitClientDataForm()">signup</button>
   <button mat-button color="warn" type="button" (click)="DoesClientHasAccount.emit(true)">already have an account?</button>
 </form>

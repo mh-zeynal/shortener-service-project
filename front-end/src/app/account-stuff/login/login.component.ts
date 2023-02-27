@@ -22,7 +22,6 @@ export class LoginComponent extends AbstractAccountType implements OnInit {
   }
 
   emitClientDataForm(): void {
-    debugger
     this.formSubmit.emit(this.form);
   }
 
