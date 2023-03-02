@@ -32,6 +32,7 @@ back-end/go.work
 
 # IDEs and editors-angular
 /front-end/.idea
+back-end/.idea
 /front-end/.project
 /front-end/.classpath
 /front-end/.c9/
@@ -40,6 +41,7 @@ back-end/go.work
 /front-end/*.sublime-workspace
 
 # IDE - VSCode-angular
+.vscode/*
 /front-end/.vscode/*
 /front-end/!.vscode/settings.json
 /front-end/!.vscode/tasks.json

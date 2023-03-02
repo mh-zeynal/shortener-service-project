@@ -3,9 +3,14 @@ import {FormGroup} from "@angular/forms";
 
 @Directive()
 export abstract class AbstractAccountType {
+  form !: FormGroup;
   @Output() DoesClientHasAccount = new EventEmitter<boolean>();
   @Output() formSubmit = new EventEmitter<FormGroup>();
 
-  abstract emitClientDataForm(): void;
+  emitClientDataForm(): void {
+    if (this.form.invalid)
+      return;
+    this.formSubmit.emit(this.form);
+  }
 
 }

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AbstractAccountType} from "../abstract-account-type";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -9,20 +9,15 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 })
 export class LoginComponent extends AbstractAccountType implements OnInit {
 
-  form = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
-  })
-
   constructor(private fb: FormBuilder) {
     super();
+    this.form = new FormGroup({
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+    })
   }
 
   ngOnInit(): void {
-  }
-
-  emitClientDataForm(): void {
-    this.formSubmit.emit(this.form);
   }
 
 }

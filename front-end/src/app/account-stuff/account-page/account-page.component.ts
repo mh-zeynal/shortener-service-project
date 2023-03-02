@@ -20,7 +20,7 @@ export class AccountPageComponent implements OnInit {
   submitForm(url: string, event: FormGroup){
     this.http.sendPostRequest(url, event.value).subscribe(value => {
       debugger
-      console.log(value.message);
+      console.log(value);
     })
   }
 
