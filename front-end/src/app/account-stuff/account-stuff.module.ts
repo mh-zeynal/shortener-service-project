@@ -8,14 +8,10 @@ import { SignupComponent } from './signup/signup.component';
 import {MatButtonModule} from "@angular/material/button";
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import {PasswordValidator} from "../shared/validators/password-validator";
 
 
 
 @NgModule({
-  providers: [
-    PasswordValidator
-  ],
   declarations: [
     SignupComponent,
     LoginComponent
