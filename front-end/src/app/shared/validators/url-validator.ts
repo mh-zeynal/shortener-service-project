@@ -6,7 +6,6 @@ export function validateUrlFormat(): ValidatorFn {
     const value = control.value;
     if (!value)
       return null;
-    return new RegExp(urlRegex).test(value) ? null :
-      {message: 'input value is not recognized as a valid url format'}
+    return !new RegExp(urlRegex).test(value) ? {invalidUrl: true} : null
   }
 }

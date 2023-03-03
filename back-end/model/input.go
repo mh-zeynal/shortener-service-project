@@ -1,7 +1,7 @@
 package model
 
 type Input struct {
-	Url         string `json:"url"`
+	Url         string `json:"originalUrl"`
 	Description string `json:"description"`
 	Title       string `json:"title"`
 }

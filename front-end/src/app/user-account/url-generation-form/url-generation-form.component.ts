@@ -10,11 +10,16 @@ import {Clipboard} from "@angular/cdk/clipboard";
   styleUrls: ['./url-generation-form.component.scss']
 })
 export class UrlGenerationFormComponent implements OnInit {
+  isResponseOk = false;
+
   @ViewChild('short_url') urlInput !: ElementRef<HTMLInputElement>;
+
   form = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    originalUrl: new FormControl('', [validateUrlFormat, Validators.required]),
-    description: new FormControl('')
+    originalUrl: new FormControl('', [
+      Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'), Validators.required
+    ]),
+    description: new FormControl('', [Validators.maxLength(200)])
   })
 
   constructor(private http: HttpService, private clipboard: Clipboard) { }
@@ -23,23 +28,31 @@ export class UrlGenerationFormComponent implements OnInit {
   }
 
   submitForm(){
-    this.http.sendPostRequest('/api/shorten', this.convertToFormData()).subscribe( value => {
-      console.log(value)
+    console.log(this.form)
+    if (this.form.invalid)
+      return;
+    this.http.sendPostRequest('/api/shorten', this.form.value).subscribe( response => {
+      debugger
+      if (response.ok) {
+        this.isResponseOk = true;
+        this.urlInput.nativeElement.value = response?.body?.link ?? '';
+      }
     })
   }
 
-  copyUrlToClipbaord(){
+  copyUrlToClipboard(){
     if (!this.urlInput)
       return;
     this.clipboard.copy(this.urlInput.nativeElement.value);
   }
 
-  private convertToFormData(): FormData {
-    let formData = new FormData();
-    formData.append('title', this.form.get('title')?.value);
-    formData.append('url', this.form.get('originalUrl')?.value);
-    formData.append('description', this.form.get('description')?.value);
-    return formData;
+  showUrlFieldError() {
+    let urlControl = this.form.controls.originalUrl;
+    if (urlControl.hasError('required'))
+      return 'please enter your intended url';
+    else if (urlControl.hasError('pattern'))
+      return 'please enter a valid url';
+    return ''
   }
 
 }
