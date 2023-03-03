@@ -11,7 +11,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {ClipboardModule} from "@angular/cdk/clipboard";
-
+import {RouterModule} from "@angular/router";
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -29,7 +30,9 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
         MatInputModule,
         MatButtonModule,
         ReactiveFormsModule,
-        ClipboardModule
+        ClipboardModule,
+        RouterModule,
+        MatIconModule,
     ]
 })
 export class UserAccountModule { }

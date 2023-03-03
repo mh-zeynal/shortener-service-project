@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../shared/services/http.service";
 import {FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-account-page',
@@ -12,7 +13,8 @@ export class AccountPageComponent implements OnInit {
 
   hasAccount = false;
 
-  constructor(private http: HttpService, private snackBar: MatSnackBar) { }
+  constructor(private http: HttpService,
+              private snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -26,6 +28,8 @@ export class AccountPageComponent implements OnInit {
       else
         message = '❌' + message;
       this.snackBar.open(message, 'ok', {duration: 5000})
+      if (!msgFlag)
+        this.router.navigateByUrl('/user')
     })
   }
 

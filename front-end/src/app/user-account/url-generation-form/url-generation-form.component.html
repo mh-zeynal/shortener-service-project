@@ -2,7 +2,7 @@
   <form [formGroup]="form" id="main-form">
     <div>
       <div id="mandatory-inputs">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" color="accent">
           <mat-label>title</mat-label>
           <input matInput type="text" formControlName="title" required>
         </mat-form-field>
@@ -22,10 +22,14 @@
         </button>
       </div>
       <div id="short-url-container">
-        <div>
-          <input type="text" readonly autocomplete="off" id="short-url-input" #short_url>
-          <button type="button" id="copy-button" (click)="copyUrlToClipbaord()">copy</button>
-        </div>
+        <mat-form-field>
+          <input type="text" matInput readonly #short_url>
+          <button type="button" color="primary"
+                  matSuffix mat-icon-button
+                  (click)="copyUrlToClipbaord()">
+            <mat-icon><img src="./assets/icons/copy.png" alt="copy"></mat-icon>
+          </button>
+        </mat-form-field>
       </div>
     </div>
   </form>

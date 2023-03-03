@@ -1,3 +1,5 @@
+@import "src/styles";
+
 a {
   text-decoration: none;
 }
@@ -7,6 +9,7 @@ a {
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient(-45deg, #000000, #2a2929);
 }
 
 #header-bar {
@@ -16,11 +19,10 @@ a {
   padding: 5px;
   box-sizing: border-box;
   & div {
+    @extend .glass-box;
     width: 100%;
     display: flex;
     justify-content: space-between;
-    border-radius: 15px;
-    background-color: #e8e8e8;
     padding: 10px;
   }
 }
@@ -47,13 +49,13 @@ a {
     padding: 10px;
     border-radius: 15px;
     box-sizing: border-box;
-    background-color: #e8e8e8;
+    @extend .glass-box;
   }
 }
 
 .dashboard-buttons {
   position: relative;
-  color: #3083C3;
+  color: var(--primary-color);
   height: fit-content;
   width: 100%;
   padding: 10px;
@@ -76,7 +78,7 @@ a {
   display: inline-block;
   height: 3px;
   width: 0;
-  background-color: #3083C3;
+  background-color: var(--primary-color);
   left: 0;
   bottom: -2px;
   transition: width .25s ease-in-out;
@@ -88,7 +90,7 @@ a {
 
 .active-dashboard-button {
   @extend .dashboard-buttons;
-  color: #B61515;
+  color: var(--warn-color);
 }
 
 #page-logo {
@@ -112,8 +114,8 @@ a {
 }
 
 #route-content {
+  @extend .glass-box;
+  box-sizing: border-box;
   width: calc(100% - 155px);
-  background-color: #e8e8e8;
-  border-radius: 15px;
   overflow: hidden;
 }

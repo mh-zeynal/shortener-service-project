@@ -29,27 +29,25 @@ button {
 }
 
 #short-url-container {
-  padding: 15px 0;
-  & > div {
-    display: flex;
-    height: fit-content;
-    border-radius: 15px;
-    overflow: hidden;
-    border: 2px solid #3083C3;
+  & > * {
+    width: 100%;
   }
-}
 
-#copy-button {
-  width: fit-content;
-  outline: none;
-  border: none;
-  height: 32px;
-  width: 80px;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  font-family: Calibri;
-  background-color: #3083C3;
+  input {
+    height: 25px;
+  }
+
+  button {
+    width: 40px;
+    height: 30px;
+    & .mat-icon {
+      width: 100%;
+      font-size: 25px;
+      img {
+        width: 20px;
+      }
+    }
+  }
 }
 
 #short-url-input {
