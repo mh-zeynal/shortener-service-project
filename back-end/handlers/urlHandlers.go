@@ -25,7 +25,7 @@ func HandleShortener(c echo.Context) error {
 	ok, url := db.GetUrlByOriginalIfAvailable(body.Url, claims["usr"].(string))
 	if ok && (*url != model.URL{}) {
 		msg = utils.GenerateResponseMessage(constants.DUPLICATE_URL,
-			utils.GetVariable("DOMAIN_NAME")+url.Short_url)
+			utils.GetVariable("DOMAIN_NAME")+url.Short_url, false)
 		return c.JSON(http.StatusOK, msg)
 	}
 	short := utils.GenerateShortUrl()
@@ -35,7 +35,7 @@ func HandleShortener(c echo.Context) error {
 	newUrl.User_id = user.User_Id
 	db.InsertNewUrl(newUrl)
 	msg = utils.GenerateResponseMessage(constants.URL_SHORTENED,
-		utils.GetVariable("DOMAIN_NAME")+"api/"+short)
+		utils.GetVariable("DOMAIN_NAME")+"api/"+short, false)
 	return c.JSON(http.StatusOK, msg)
 }
 
@@ -46,12 +46,12 @@ func HandleRedirects(c echo.Context) error {
 	var msg model.ResponseMessage
 	ok, url := db.GetUrlByShortIfAvailable(shortUrl, claims["usr"].(string))
 	if !ok {
-		msg = utils.GenerateResponseMessage(constants.UNAVAILABLE_LINK, "")
-		return c.JSON(http.StatusNotFound, msg)
+		msg = utils.GenerateResponseMessage(constants.UNAVAILABLE_LINK, "", true)
+		return c.JSON(http.StatusOK, msg)
 	}
 	if dateExtractor.IsLinkExpired(url.Created_at) {
-		msg = utils.GenerateResponseMessage(constants.EXPIRED_LINK, "")
-		return c.JSON(http.StatusForbidden, msg)
+		msg = utils.GenerateResponseMessage(constants.EXPIRED_LINK, "", true)
+		return c.JSON(http.StatusOK, msg)
 	}
 	return c.Redirect(http.StatusSeeOther, url.Original_url)
 }
@@ -64,7 +64,7 @@ func GetUserUrls(c echo.Context) error {
 		return []byte("mh_secret"), nil
 	})
 	if err != nil {
-		msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "")
+		msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "", true)
 		return c.JSON(http.StatusUnauthorized, msg)
 	}
 	rows, err := db.GetUrlsByUsername(claims["usr"].(string))

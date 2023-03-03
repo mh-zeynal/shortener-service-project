@@ -14,12 +14,12 @@ func AuthenticateUser(next echo.HandlerFunc) echo.HandlerFunc {
 		cookie, _ := c.Cookie("token")
 		var msg model.ResponseMessage
 		if cookie == nil {
-			msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "")
+			msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "", false)
 			return c.JSON(http.StatusUnauthorized, msg)
 		}
 		_, err := utils.ExtractTokenClaimsFromCookie(*cookie)
 		if err != nil {
-			msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "")
+			msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "", false)
 			return c.JSON(http.StatusUnauthorized, msg)
 		}
 		return next(c)

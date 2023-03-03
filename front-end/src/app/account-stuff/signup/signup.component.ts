@@ -34,7 +34,6 @@ export class SignupComponent extends AbstractAccountType implements OnInit {
 
   showPasswordError(){
     let control = this.form.controls['password'];
-    console.log(control.errors)
     if (control.hasError('required'))
       return 'please enter your password';
     if (control.hasError('pattern'))

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {UrlType} from "../interfaces/url-type";
 import {ResponseMessage} from "../interfaces/response-message";
@@ -15,7 +15,7 @@ export class HttpService {
     return this.http.get<UrlType>(url);
   }
 
-  public sendPostRequest(url: string, body: any): Observable<ResponseMessage> {
-    return this.http.post<ResponseMessage>(url, body);
+  public sendPostRequest(url: string, body: any): Observable<HttpResponse<ResponseMessage>> {
+    return this.http.post<ResponseMessage>(url, body, {observe: 'response'});
   }
 }

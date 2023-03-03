@@ -8,6 +8,7 @@ import { SignupComponent } from './signup/signup.component';
 import {MatButtonModule} from "@angular/material/button";
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 
@@ -27,6 +28,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     SharedModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
     AccountStuffRoutingModule
   ]
 })

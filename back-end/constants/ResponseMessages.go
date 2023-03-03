@@ -1,6 +1,7 @@
 package constants
 
 const (
+	BAD_REQUEST        = "there was a problem with your request, try again"
 	DUPLICATE_USERNAME = "this username is already taken"
 	DUPLICATE_EMAIL    = "another account exists with this email"
 	SUCCESSFULL_SIGNUP = "user signed up successfully"
