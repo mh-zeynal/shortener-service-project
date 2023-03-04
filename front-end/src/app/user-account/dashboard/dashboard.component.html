@@ -15,15 +15,15 @@
   <div id="main-content-container">
     <div id="dashboard-button-container">
       <div #buttonContainer>
-        <a class="dashboard-buttons" routerLink="/user/generate-url" #generate
-           routerLinkActive="active" (click)="markAsSelected(generate)">
+        <a class="dashboard-buttons" routerLink="/user/generate-url"
+           id="generate-url" routerLinkActive="active">
           <div>
             <img src="./assets/icons/generate.png" alt="">
             <strong>generate url</strong>
           </div>
         </a>
-        <a class="dashboard-buttons" routerLink="#" #link
-           routerLinkActive="active" (click)="markAsSelected(link)">
+        <a class="dashboard-buttons" routerLink="links"
+           id="links" routerLinkActive="active">
           <div>
             <img src="./assets/icons/link.png" alt="">
             <strong>links</strong>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div id="route-content">
-      <router-outlet></router-outlet>
+      <router-outlet (activate)="markAsSelected()"></router-outlet>
     </div>
   </div>
 </div>
