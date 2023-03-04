@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('buttonContainer') buttonContainer !: ElementRef;
+
   isUserDropdownOpen = false;
 
   constructor() { }
@@ -13,8 +15,11 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  markAsSelected(){
-
+  markAsSelected(targetButton: Element){
+    let button = document.getElementsByClassName('active-dashboard-button');
+    while (button.length)
+      button[0].classList.remove('active-dashboard-button');
+    targetButton.classList.add('active-dashboard-button');
   }
 
 }

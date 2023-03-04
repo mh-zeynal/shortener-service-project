@@ -14,14 +14,16 @@
   </div>
   <div id="main-content-container">
     <div id="dashboard-button-container">
-      <div>
-        <a class="dashboard-buttons" routerLink="/user/generate-url" routerLinkActive="active" (click)="markAsSelected()">
+      <div #buttonContainer>
+        <a class="dashboard-buttons" routerLink="/user/generate-url" #generate
+           routerLinkActive="active" (click)="markAsSelected(generate)">
           <div>
             <img src="./assets/icons/generate.png" alt="">
             <strong>generate url</strong>
           </div>
         </a>
-        <a class="dashboard-buttons" routerLink="#" routerLinkActive="active" (click)="markAsSelected()">
+        <a class="dashboard-buttons" routerLink="#" #link
+           routerLinkActive="active" (click)="markAsSelected(link)">
           <div>
             <img src="./assets/icons/link.png" alt="">
             <strong>links</strong>
