@@ -1,29 +1,62 @@
+@import "src/styles";
+
 img {
-  width: 20px;
+  width: 22px;
+}
+
+span {
+  align-items: center;
 }
 
 #dropdown-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 150px;
+  width: 100%;
   padding: 10px;
   box-sizing: border-box;
-  background-color: white;
-  border-radius: 15px;
+  background-color: #{map-get($mat-accent, "darker")};
+  border-radius: 5px;
 }
 
 #user-pages {
+  padding: 5px 0;
   border-bottom: 1px solid #999999;
   border-top: 1px solid #999999;
 }
 
 #logout {
-  color: #EB2626;
+  padding: 5px 0 0 0;
+  color: var(--warn-color);
 }
 
 .page-buttons {
   padding: 5px;
   display: flex;
   justify-content: space-between;
+}
+
+#profile-summary {
+  padding: 0 0 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+#profile-photo {
+  color: var(--accent-lighter-color);
+  border-radius: 50%;
+  padding: 5px;
+  height: fit-content;
+  box-sizing: border-box;
+  background-color: var(--primary-color);
+}
+
+#summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--accent-lighter-color);
+  & span:last-child {
+    color: var(--text-accent-color);
+  }
 }

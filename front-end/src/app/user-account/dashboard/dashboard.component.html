@@ -40,5 +40,7 @@
              [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayOrigin]="trigger"
              [cdkConnectedOverlayOpen]="isUserDropdownOpen" (detach)="isUserDropdownOpen = false"
              (backdropClick)="isUserDropdownOpen = false">
-  <app-user-dropdown></app-user-dropdown>
+  <div id="dropdown-overlay">
+    <app-user-dropdown></app-user-dropdown>
+  </div>
 </ng-template>
