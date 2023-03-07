@@ -1,0 +1,114 @@
+@import "src/styles";
+
+#links-container {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.links {
+  border: 4px solid var(--accent-darker-color);
+  box-sizing: border-box;
+  display: flex;
+  height: 90px;
+  width: 100%;
+  justify-content: space-between;
+  border-radius: 15px;
+  overflow: hidden;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px rgba(8, 7, 16, 0.6);
+  transition: all .2s ease-in;
+}
+
+.links:hover {
+  transform: scale(1.008);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.brief-data {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  .title {
+    color: var(--text-primary-color);
+    display: flex;
+    align-items: center;
+    flex: 2;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .url {
+    color: var(--primary-darker-color);
+    max-width: 300px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+  & > div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  img {
+    width: 25px;
+  }
+}
+
+#empty-list {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  flex-direction: column;
+  img {
+    width: 100px;
+    height: 100px;
+    filter: brightness(0) saturate(100%) invert(40%) sepia(90%)
+    saturate(429%) hue-rotate(163deg) brightness(96%) contrast(88%);
+  }
+  span {
+    display: flex;
+    justify-content: center;
+    font-size:20px;
+    color: var(--primary-color);
+  }
+}
+
+.link-state-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+.link-state {
+  padding: 5px;
+  border-radius: 15px;
+  box-sizing: border-box;
+}
+
+.active-url {
+  background-color: var(--primary-color);
+  color: var(--text-primary-color);
+}
+
+.expired-url {
+  background-color: var(--warn-color);
+  color: var(--text-warn-color);
+}
+

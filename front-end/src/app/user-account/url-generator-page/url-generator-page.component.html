@@ -1,0 +1,15 @@
+<div id="link-generator-container">
+  <div>
+    <app-url-generation-form (shortUrl)="assignEmittedShortUrl($event)"></app-url-generation-form>
+    <div id="short-url-container" class="{{shortenedUrlValue ? 'visible-url' : 'hidden-url'}}">
+      <mat-form-field>
+        <input type="text" matInput readonly #short_url>
+        <button type="button" color="primary"
+                matSuffix mat-icon-button
+                (click)="copyUrlToClipboard()">
+          <mat-icon><img src="./assets/icons/copy.png" alt="copy"></mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

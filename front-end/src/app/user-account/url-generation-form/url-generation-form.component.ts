@@ -1,8 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {validateUrlFormat} from "../../shared/validators/url-validator";
 import {HttpService} from "../../shared/services/http.service";
 import {Clipboard} from "@angular/cdk/clipboard";
+import {UrlType} from "../../shared/interfaces/url-type";
 
 @Component({
   selector: 'app-url-generation-form',
@@ -10,9 +10,11 @@ import {Clipboard} from "@angular/cdk/clipboard";
   styleUrls: ['./url-generation-form.component.scss']
 })
 export class UrlGenerationFormComponent implements OnInit {
-  isResponseOk = false;
 
-  @ViewChild('short_url') urlInput !: ElementRef<HTMLInputElement>;
+  @Input() isEditing = false;
+  @Input() inputUrlObject !: UrlType;
+  @Output() shortUrl = new EventEmitter<string>();
+  @Output() responseMessage = new EventEmitter<string>();
 
   form = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -22,28 +24,35 @@ export class UrlGenerationFormComponent implements OnInit {
     description: new FormControl('', [Validators.maxLength(200)])
   })
 
-  constructor(private http: HttpService, private clipboard: Clipboard) { }
+  constructor(private http: HttpService) { }
 
   ngOnInit(): void {
+    if (this.inputUrlObject) {
+      this.form.patchValue({
+        title: this.inputUrlObject?.title,
+        originalUrl: this.inputUrlObject?.originalUrl,
+        description: this.inputUrlObject?.description.toString()
+      })
+    }
   }
 
   submitForm(){
-    console.log(this.form)
+    debugger
     if (this.form.invalid)
       return;
-    this.http.sendPostRequest('/api/shorten', this.form.value).subscribe( response => {
-      debugger
-      if (response.ok) {
-        this.isResponseOk = true;
-        this.urlInput.nativeElement.value = response?.body?.link ?? '';
-      }
-    })
-  }
+    let path = this.defineRequestUrl();
+    let requestBody = this.defineRequestBody();
+    this.http.sendPostRequest(path, requestBody)
+      .subscribe( response => {
+        debugger
+      if (!response.ok || response?.body?.isError)
+        return;
+      if (!this.isEditing)
+        this.shortUrl.emit(response?.body?.link);
+      else
+        this.responseMessage.emit(response?.body?.message);
 
-  copyUrlToClipboard(){
-    if (!this.urlInput)
-      return;
-    this.clipboard.copy(this.urlInput.nativeElement.value);
+    })
   }
 
   showUrlFieldError() {
@@ -53,6 +62,19 @@ export class UrlGenerationFormComponent implements OnInit {
     else if (urlControl.hasError('pattern'))
       return 'please enter a valid url';
     return ''
+  }
+
+  defineRequestUrl() {
+    return this.isEditing ? '/api/editUrl' : '/api/shorten';
+  }
+
+  defineRequestBody() {
+    if (!this.isEditing)
+      return this.form.value;
+    this.inputUrlObject.title = this.form.controls['title'].value;
+    this.inputUrlObject.originalUrl = this.form.controls['originalUrl'].value;
+    this.inputUrlObject.description = this.form.controls['description'].value;
+    return this.inputUrlObject;
   }
 
 }

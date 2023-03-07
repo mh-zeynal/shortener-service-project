@@ -63,3 +63,4 @@ back-end/.idea
 # System Files-angular
 /front-end/.DS_Store
 /front-end/Thumbs.db
+/.vscode/

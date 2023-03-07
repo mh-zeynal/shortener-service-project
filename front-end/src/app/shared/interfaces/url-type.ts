@@ -1,6 +1,8 @@
 export interface UrlType {
+  userId: number,
+  title: string,
   shortUrl: string,
   originalUrl: string,
-  title: string,
+  description: string,
   createdAt: Date,
 }

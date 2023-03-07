@@ -90,6 +90,10 @@ a {
 
 .active-dashboard-button {
   color: var(--warn-color);
+  img {
+    filter: brightness(0) saturate(100%) invert(18%) sepia(80%)
+    saturate(2715%) hue-rotate(352deg) brightness(92%) contrast(96%);
+  }
   &::after {
     background-color: var(--warn-color);
     width: 100%;

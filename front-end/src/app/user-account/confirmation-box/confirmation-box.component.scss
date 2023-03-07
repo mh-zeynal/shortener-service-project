@@ -1,0 +1,17 @@
+#delete-box-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#delete-message-container {
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+}
+
+#buttons-container {
+  display: flex;
+  padding: 8px;
+  justify-content: space-between;
+}

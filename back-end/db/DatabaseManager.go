@@ -43,7 +43,8 @@ func GetUrlsByUserId(user_id uint) ([]model.URL, error) {
 		var temp model.URL
 		err = rows.Scan(&temp.Id, &temp.Short_url,
 			&temp.Original_url, &temp.Title,
-			&temp.Created_at, &temp.User_id)
+			&temp.Created_at, &temp.User_id,
+			&temp.Description)
 		urls = append(urls, temp)
 	}
 	if err != nil {
@@ -100,7 +101,8 @@ func GetUrlByShortForm(shortForm string) (*model.URL, error) {
 	if row.Next() {
 		err = row.Scan(&temp.Id, &temp.Short_url,
 			&temp.Original_url, &temp.Title,
-			&temp.Created_at, &temp.User_id)
+			&temp.Created_at, &temp.User_id,
+			&temp.Description)
 	}
 	if err != nil {
 		return nil, err
@@ -123,7 +125,8 @@ func GetUrlByOriginalIfAvailable(originalUrl string, username string) (bool, *mo
 	if row.Next() {
 		err = row.Scan(&temp.Id, &temp.Short_url,
 			&temp.Original_url, &temp.Title,
-			&temp.Created_at, &temp.User_id)
+			&temp.Created_at, &temp.User_id,
+			&temp.Description)
 	}
 	if (temp == model.URL{}) || err != nil {
 		return false, nil
@@ -146,7 +149,8 @@ func GetUrlByShortIfAvailable(shortUrl string, username string) (bool, *model.UR
 	if row.Next() {
 		err = row.Scan(&temp.Id, &temp.Short_url,
 			&temp.Original_url, &temp.Title,
-			&temp.Created_at, &temp.User_id)
+			&temp.Created_at, &temp.User_id,
+			&temp.Description)
 	}
 	if (temp == model.URL{}) || err != nil {
 		return false, nil
@@ -157,8 +161,8 @@ func GetUrlByShortIfAvailable(shortUrl string, username string) (bool, *model.UR
 func InsertNewUrl(newUrl model.URL) error {
 	establishConnection()
 	insert, err :=
-		DB.Query("INSERT INTO urls(short_url, original_url, title, user_id) VALUES (?, ?, ?, ?)",
-			newUrl.Short_url, newUrl.Original_url, newUrl.Title, newUrl.User_id)
+		DB.Query("INSERT INTO urls(short_url, original_url, title, user_id, descrption) VALUES (?, ?, ?, ?, ?)",
+			newUrl.Short_url, newUrl.Original_url, newUrl.Title, newUrl.User_id, newUrl.Description)
 	defer insert.Close()
 	if err != nil {
 		return err
@@ -171,6 +175,26 @@ func InsertNewUser(newUser model.User) error {
 	insert, err := DB.Query("INSERT INTO service_users(username, password, email, name) VALUES(?, ?, ?, ?)",
 		newUser.Username, newUser.Password, newUser.Email, newUser.Name)
 	defer insert.Close()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func EditExistingUrl(url model.URL) error {
+	establishConnection()
+	_, err := DB.Exec("UPDATE urls SET original_url = ?, description = ?, title = ? where short_url = ? AND user_id = ?",
+		url.Original_url, url.Description, url.Title, url.Short_url, url.User_id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteExistingUrl(url model.URL) error {
+	establishConnection()
+	_, err := DB.Exec("DELETE FROM urls where original_url = ? AND short_url = ? AND user_id = ?",
+		url.Original_url, url.Short_url, url.User_id)
 	if err != nil {
 		return err
 	}

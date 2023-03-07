@@ -1,0 +1,47 @@
+<div id="links-container">
+  <div *ngIf="!links || links.length == 0" id="empty-list">
+    <span>
+      <img src="./assets/icons/empty-folder.png" alt="no link available">
+    </span>
+    <span>
+      you have no link history in your account
+    </span>
+  </div>
+  <div *ngFor="let link of links;" class="links">
+    <div class="brief-data">
+      <span class="title">{{link.title}}</span>
+      <span class="url" title="{{link.originalUrl}}">{{link.originalUrl}}</span>
+    </div>
+    <div class="link-state-container">
+      <span class="{{'link-state ' + (!isLinkExpired(link) ? 'active-url' : 'expired-url')}}">
+      {{!isLinkExpired(link) ? 'active' : 'expired'}}
+      </span>
+    </div>
+    <div class="buttons-container">
+      <div>
+        <button mat-button type="button"
+                class="url-action-buttons" title="copy"
+                (click)="copyUrlToClipboard(link)">
+          <img src="./assets/icons/copy-darker.png" alt="copy">
+        </button>
+        <button mat-button type="button" (click)="openUrlEditDialog(link)"
+                class="url-action-buttons" title="edit">
+          <img src="./assets/icons/edit.png" alt="edit">
+        </button>
+        <button mat-button type="button" (click)="openUrlDeleteDialog(link)"
+                class="url-action-buttons" title="delete">
+          <img src="./assets/icons/delete.png" alt="delete">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #editBox>
+  <app-url-generation-form
+    [isEditing]="true" [inputUrlObject]="targetUrl"
+    (responseMessage)="showMessageNotification($event)">
+  </app-url-generation-form>
+</ng-template>
+<ng-template #deleteBox>
+  <app-confirmation-box [parentComponent]="this"></app-confirmation-box>
+</ng-template>

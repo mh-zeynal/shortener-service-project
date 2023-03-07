@@ -13,4 +13,6 @@ const (
 	UNAUTHORIZED_USER  = "user has not logged in"
 	DUPLICATE_URL      = "this link is already available"
 	URL_SHORTENED      = "shortened url:"
+	URL_EDITED         = "link has been edited successfully"
+	URL_DELETED        = "link has been deleted successfully"
 )

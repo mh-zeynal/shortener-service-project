@@ -23,6 +23,9 @@ span {
   padding: 5px 0;
   border-bottom: 1px solid #999999;
   border-top: 1px solid #999999;
+  .page-buttons {
+    color: var(--text-primary-color);
+  }
 }
 
 #logout {

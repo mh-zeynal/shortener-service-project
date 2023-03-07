@@ -13,12 +13,20 @@ import {MatButtonModule} from "@angular/material/button";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {RouterModule} from "@angular/router";
 import {MatIconModule} from '@angular/material/icon';
-
+import { UserLinksPageComponent } from './user-links-page/user-links-page.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatDialogModule} from "@angular/material/dialog";
+import { UrlGeneratorPageComponent } from './url-generator-page/url-generator-page.component';
+import { ConfirmationBoxComponent } from './confirmation-box/confirmation-box.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    UrlGenerationFormComponent
+    UrlGenerationFormComponent,
+    UserLinksPageComponent,
+    UrlGeneratorPageComponent,
+    ConfirmationBoxComponent
   ],
     imports: [
         CommonModule,
@@ -33,6 +41,9 @@ import {MatIconModule} from '@angular/material/icon';
         ClipboardModule,
         RouterModule,
         MatIconModule,
+        MatCardModule,
+        MatSnackBarModule,
+        MatDialogModule,
     ]
 })
 export class UserAccountModule { }

@@ -39,6 +39,34 @@ func HandleShortener(c echo.Context) error {
 	return c.JSON(http.StatusOK, msg)
 }
 
+func EditUrlRecord(c echo.Context) error {
+	link := model.URL{}
+	err := json.NewDecoder(c.Request().Body).Decode(&link)
+	if err != nil {
+		fmt.Println("no json passed to handler")
+	}
+	err = db.EditExistingUrl(link)
+	if err != nil {
+		println("sekfhskjdfe")
+	}
+	msg := utils.GenerateResponseMessage(constants.URL_EDITED, "", false)
+	return c.JSON(http.StatusOK, msg)
+}
+
+func DeleteUrl(c echo.Context) error {
+	link := model.URL{}
+	err := json.NewDecoder(c.Request().Body).Decode(&link)
+	if err != nil {
+		fmt.Println("no json passed to handler")
+	}
+	err = db.DeleteExistingUrl(link)
+	if err != nil {
+		println("sekfhskjdfe")
+	}
+	msg := utils.GenerateResponseMessage(constants.URL_DELETED, "", false)
+	return c.JSON(http.StatusOK, msg)
+}
+
 func HandleRedirects(c echo.Context) error {
 	shortUrl := c.Param("s")
 	cookie, _ := c.Cookie("token")
@@ -68,5 +96,5 @@ func GetUserUrls(c echo.Context) error {
 		return c.JSON(http.StatusUnauthorized, msg)
 	}
 	rows, err := db.GetUrlsByUsername(claims["usr"].(string))
-	return c.JSON(http.StatusOK, rows)
+	return c.JSON(http.StatusOK, model.UserLinks{Links: rows, IsError: false})
 }
