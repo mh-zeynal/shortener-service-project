@@ -271,3 +271,7 @@ $altTheme: (
 .mat-form-field input {
   color: #{$light-accent-text};
 }
+
+.mat-dialog-container {
+  border-radius: 15px !important;
+}

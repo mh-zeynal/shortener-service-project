@@ -16,5 +16,7 @@ func main() {
 	api.POST("/shorten", handlers.HandleShortener, middleWares.AuthenticateUser)
 	api.POST("/editUrl", handlers.EditUrlRecord, middleWares.AuthenticateUser)
 	api.POST("/deleteUrl", handlers.DeleteUrl, middleWares.AuthenticateUser)
+	api.GET("/briefData", handlers.SendUserBriefData, middleWares.AuthenticateUser)
+	api.GET("/logout", handlers.LogoutUser, middleWares.AuthenticateUser)
 	e.Logger.Info(e.Start(":9090"))
 }

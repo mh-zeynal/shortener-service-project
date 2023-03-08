@@ -200,3 +200,11 @@ func DeleteExistingUrl(url model.URL) error {
 	}
 	return nil
 }
+
+func GetUserBriefDataByUsername(username string) (*model.UserBriefData, error) {
+	user, err := GetUserByUsername(username)
+	if err != nil {
+		return nil, err
+	}
+	return &model.UserBriefData{Email: user.Email, Name: user.Name}, nil
+}

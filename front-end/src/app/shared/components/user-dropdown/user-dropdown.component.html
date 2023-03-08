@@ -1,9 +1,15 @@
 <div id="dropdown-container" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
   <div id="profile-summary">
-    <div id="profile-photo">CB</div>
+    <div id="profile-photo-container">
+      <div id="profile-photo">
+        <span>
+          {{briefData?.name?.substr(0, 2)?.toUpperCase()}}
+        </span>
+      </div>
+    </div>
     <div id="summary">
-      <span id="name">charlie botosh</span>
-      <span id="email">charliebotosh@gmail.com</span>
+      <span id="name">{{briefData?.name}}</span>
+      <span id="email">{{briefData?.email}}</span>
     </div>
   </div>
   <div id="user-pages">
@@ -11,13 +17,15 @@
       <img src="../../../../assets/icons/profile.png" alt="profile">
       <span>profile</span>
     </div>
-    <div class="page-buttons" *ngIf="!isCurrentRouteOnUserPage()">
+    <div class="page-buttons"
+         *ngIf="!isCurrentRouteOnUserPage()"
+         (click)="goToUserDashboard()">
       <img src="../../../../assets/icons/dashboard.png" alt="dashboard">
       <span>dashboard</span>
     </div>
   </div>
   <div id="logout">
-    <div class="page-buttons">
+    <div class="page-buttons" (click)="logoutUser()">
       <img src="../../../../assets/icons/logout.png" alt="logout">
       <span>logout</span>
     </div>

@@ -16,7 +16,7 @@ span {
   padding: 10px;
   box-sizing: border-box;
   background-color: #{map-get($mat-accent, "darker")};
-  border-radius: 5px;
+  border-radius: 15px;
 }
 
 #user-pages {
@@ -34,6 +34,7 @@ span {
 }
 
 .page-buttons {
+  cursor: pointer;
   padding: 5px;
   display: flex;
   justify-content: space-between;
@@ -45,11 +46,21 @@ span {
   justify-content: space-between;
 }
 
+#profile-photo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 #profile-photo {
   color: var(--accent-lighter-color);
   border-radius: 50%;
-  padding: 5px;
-  height: fit-content;
+  width: 33px;
+  height: 33px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   background-color: var(--primary-color);
 }

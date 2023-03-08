@@ -4,6 +4,7 @@ import {UserDropdownComponent} from "./components/user-dropdown/user-dropdown.co
 import {OverlayModule} from "@angular/cdk/overlay";
 import {A11yModule} from "@angular/cdk/a11y";
 import {HttpClientModule} from "@angular/common/http";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 
@@ -15,7 +16,8 @@ import {HttpClientModule} from "@angular/common/http";
     CommonModule,
     OverlayModule,
     A11yModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule
   ],
   exports: [
     UserDropdownComponent

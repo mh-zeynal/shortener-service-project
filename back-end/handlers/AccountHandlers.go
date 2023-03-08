@@ -6,8 +6,10 @@ import (
 	"back-end/model"
 	"back-end/utils"
 	"database/sql"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo"
 	"net/http"
+	"time"
 )
 
 func SignUpUser(c echo.Context) error {
@@ -52,5 +54,32 @@ func LoginUser(c echo.Context) error {
 	token, _ := utils.GenerateToken(*userRecord)
 	c.SetCookie(utils.GenerateCookie(c, "token", token))
 	msg = utils.GenerateResponseMessage(constants.SUCCESSFULL_LOGIN, "", false)
+	return c.JSON(http.StatusOK, msg)
+}
+
+func SendUserBriefData(c echo.Context) error {
+	token, _ := c.Cookie("token")
+	var msg model.ResponseMessage
+	claims := jwt.MapClaims{}
+	_, err := jwt.ParseWithClaims(token.Value, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte("mh_secret"), nil
+	})
+	if err != nil {
+		msg = utils.GenerateResponseMessage(constants.UNAUTHORIZED_USER, "", true)
+		return c.JSON(http.StatusUnauthorized, msg)
+	}
+	briefData, _ := db.GetUserBriefDataByUsername(claims["usr"].(string))
+	return c.JSON(http.StatusOK, briefData)
+}
+
+func LogoutUser(c echo.Context) error {
+	token, _ := c.Cookie("token")
+	token.MaxAge = -99999
+	token.Value = ""
+	token.Path = "/"
+	token.Expires = time.Unix(0, 0)
+	token.HttpOnly = true
+	c.SetCookie(token)
+	msg := utils.GenerateResponseMessage(constants.SUCCESSFULL_LOGOUT, "", false)
 	return c.JSON(http.StatusOK, msg)
 }

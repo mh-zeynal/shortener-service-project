@@ -8,6 +8,7 @@ const (
 	NO_MATCH_USERNAME  = "there's no user with this username"
 	NO_MATCH_PASSWORD  = "incorrect password"
 	SUCCESSFULL_LOGIN  = "user logged in successfully"
+	SUCCESSFULL_LOGOUT = "user logged out successfully"
 	UNAVAILABLE_LINK   = "this link is unavailable"
 	EXPIRED_LINK       = "this link has been expired"
 	UNAUTHORIZED_USER  = "user has not logged in"

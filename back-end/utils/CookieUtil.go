@@ -14,6 +14,7 @@ func GenerateCookie(c echo.Context, cookieName string, cookieValue string) *http
 	cookie.Name = cookieName
 	cookie.Value = cookieValue
 	cookie.Path = "/"
+	cookie.HttpOnly = true
 	cookie.Expires = time.Now().Add(24 * time.Hour * 30)
 	return cookie
 }

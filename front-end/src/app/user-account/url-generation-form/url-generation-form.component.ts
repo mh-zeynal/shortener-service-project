@@ -37,14 +37,12 @@ export class UrlGenerationFormComponent implements OnInit {
   }
 
   submitForm(){
-    debugger
     if (this.form.invalid)
       return;
     let path = this.defineRequestUrl();
     let requestBody = this.defineRequestBody();
     this.http.sendPostRequest(path, requestBody)
       .subscribe( response => {
-        debugger
       if (!response.ok || response?.body?.isError)
         return;
       if (!this.isEditing)
