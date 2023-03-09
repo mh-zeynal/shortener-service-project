@@ -161,7 +161,7 @@ func GetUrlByShortIfAvailable(shortUrl string, username string) (bool, *model.UR
 func InsertNewUrl(newUrl model.URL) error {
 	establishConnection()
 	insert, err :=
-		DB.Query("INSERT INTO urls(short_url, original_url, title, user_id, descrption) VALUES (?, ?, ?, ?, ?)",
+		DB.Query("INSERT INTO urls(short_url, original_url, title, user_id, description) VALUES (?, ?, ?, ?, ?)",
 			newUrl.Short_url, newUrl.Original_url, newUrl.Title, newUrl.User_id, newUrl.Description)
 	defer insert.Close()
 	if err != nil {
