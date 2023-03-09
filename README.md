@@ -3,7 +3,7 @@
  # contents #
  * #### [project definition](#about-the-project)
  * #### [run without docker](#run-project-without-docker)
- * #### [run project through docker](#run-project-through-docker)
+ * #### [run project through docker](#use-project-through-docker)
 ## About the project ##
 > A URL shortener service is a tool that takes a long, unwieldy web address and creates a much shorter, more manageable version of it. This shorter version of the URL is easier to share, particularly on social media sites like Twitter where character limits are in place.
 - - - -
@@ -43,7 +43,7 @@ go run main.go
 ng serve
 ```
 now you can use the web app. start your journey by sending request to __http://localhost:4200/__  
-good luck :simple_smile:
+good luck :)
 - - - -
 ## use project through docker ##
 this section is in progress.  
