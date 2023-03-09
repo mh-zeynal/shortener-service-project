@@ -54,7 +54,9 @@ go run main.go
 ```
 ng serve
 ```
-now you can use the web app. start your journey by sending request to __http://localhost:4200/__  
+now you can use the web app. start your journey by sending request to __http://localhost:4200/__
+home page preview:  
+<img src="./readme-data/home-page-preview.gif" width="100%">
 good luck :)
 - - - -
 ## use project through docker ##
