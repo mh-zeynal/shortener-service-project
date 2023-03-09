@@ -2,8 +2,8 @@
  - - - -
  # contents #
  * #### [project definition](#about-the-project)
- * #### [run without docker](#run_project_without_docker)
- * #### [run project through docker](#run_project_through_docker)
+ * #### [run without docker](#run-project-without-docker)
+ * #### [run project through docker](#run-project-through-docker)
 ## About the project ##
 > A URL shortener service is a tool that takes a long, unwieldy web address and creates a much shorter, more manageable version of it. This shorter version of the URL is easier to share, particularly on social media sites like Twitter where character limits are in place.
 - - - -
