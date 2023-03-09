@@ -1,0 +1,83 @@
+@import "src/styles";
+
+#page-container {
+  background-image: url('../../../assets/home-page-cover.png');
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+}
+
+#main-content-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  animation: back-blur .5s 1s forwards;
+}
+
+#buttons-container {
+  opacity: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  animation: fadeUp .5s 1s forwards;
+}
+
+#profile-button {
+  background-color: transparent;
+  img {
+    width: 35px;
+  }
+}
+
+.top-bar-buttons {
+  position: relative;
+  background-color: transparent;
+  a {
+    text-decoration: none;
+    color: var(--text-primary-color);
+  }
+}
+
+.top-bar-buttons::after {
+  content: '';
+  width: 0;
+  position: absolute;
+  background-color: var(--text-primary-color);
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  transition: width .25s ease-in-out;
+}
+
+.top-bar-buttons:hover::after {
+  width: 100%;
+}
+
+#others {
+  padding: 10px;
+  box-sizing: border-box;
+  opacity: 0;
+  height: 100%;
+  animation: fadeUp .5s 1s forwards;
+}
+
+#dropdown-overlay {
+  width: 220px;
+}
+
+@media screen and (max-width: 500px){
+  #page-container {
+    background-position: 20% center;
+  }
+}
+
+@keyframes back-blur {
+  from {backdrop-filter: blur(0);}
+  to {backdrop-filter: blur(5px);}
+}
+
+@keyframes fadeUp {
+  from {opacity: 0}
+  to {opacity: 1}
+}

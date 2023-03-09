@@ -37,18 +37,17 @@ export class UserDropdownComponent implements OnInit {
   }
 
   goToUserDashboard() {
-    this.router.navigateByUrl('/user/');
+    this.router.navigateByUrl('user');
   }
 
   logoutUser() {
     this.http.logoutUser().subscribe(response => {
-      debugger
       if (!response?.ok)
         return;
       localStorage.removeItem('data');
       this.snackBar.open('✔️' + response?.body?.message,
         'ok', {duration: 5000});
-      this.router.navigateByUrl('/account');
+      this.router.navigateByUrl('account');
     })
   }
 

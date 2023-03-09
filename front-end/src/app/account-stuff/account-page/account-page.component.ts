@@ -3,6 +3,7 @@ import {HttpService} from "../../shared/services/http.service";
 import {FormGroup} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {UserBriefData} from "../../shared/interfaces/user-brief-data";
 
 @Component({
   selector: 'app-account-page',
@@ -23,7 +24,7 @@ export class AccountPageComponent implements OnInit {
     this.http.sendPostRequest(url, event.value).subscribe(response => {
       let msgFlag = response?.body?.isError;
       let message = response?.body?.message;
-      if (msgFlag == false)
+      if (!msgFlag)
         message = '✔️' + message;
       else
         message = '❌' + message;

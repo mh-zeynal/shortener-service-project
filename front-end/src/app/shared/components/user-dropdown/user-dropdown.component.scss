@@ -25,6 +25,9 @@ span {
   border-top: 1px solid #999999;
   .page-buttons {
     color: var(--text-primary-color);
+    img {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(6%) saturate(0%) hue-rotate(6deg) brightness(106%) contrast(107%);
+    }
   }
 }
 

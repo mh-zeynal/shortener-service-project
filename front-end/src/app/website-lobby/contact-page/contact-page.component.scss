@@ -1,0 +1,56 @@
+@import "src/styles";
+
+* {
+  color: var(--text-primary-color);
+}
+
+img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#contacts-container {
+  @extend .glass-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.contact-items {
+  opacity: 0;
+  left: -20px;
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+#gmail {
+  animation: fadeAndMove .5s .75s forwards;
+}
+
+#linkedin {
+  animation: fadeAndMove .5s 1.25s forwards;
+}
+
+#phone {
+  animation: fadeAndMove .5s 1.75s forwards;
+}
+
+@keyframes fadeAndMove {
+  from {
+    opacity: 0;
+    left: -20px;
+  }
+  to {
+    opacity: 1;
+    left: 0;
+  }
+}

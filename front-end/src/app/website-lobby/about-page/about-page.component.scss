@@ -1,0 +1,23 @@
+@import "src/styles";
+
+* {
+  color: var(--text-primary-color);
+}
+
+strong {
+  color: var(--primary-darker-color);
+}
+
+#about-container {
+  @extend .glass-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.paragraphs {
+  display: flex;
+  flex-direction: column;
+}

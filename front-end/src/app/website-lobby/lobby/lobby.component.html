@@ -1,0 +1,47 @@
+<div id="page-container">
+  <div id="main-content-container">
+    <div id="buttons-container">
+      <span>
+        <button mat-flat-button
+                class="top-bar-buttons">
+          <a routerLink="home"
+             routerLinkActive="active">
+            Home
+          </a>
+        </button>
+        <button mat-flat-button
+                class="top-bar-buttons"
+                routerLinkActive="active">
+          <a routerLink="about">
+            About
+          </a>
+        </button>
+        <button mat-flat-button
+                class="top-bar-buttons">
+          <a routerLink="contact-us"
+             routerLinkActive="active">
+            Contact Us
+          </a>
+        </button>
+      </span>
+      <button mat-flat-button id="profile-button"
+              (click)="isUserDropdownOpen = !isUserDropdownOpen"
+              cdkOverlayOrigin
+              #trigger="cdkOverlayOrigin"
+              [style.display]="isUserLoggedIn() ? 'block' : 'none'">
+        <img src="./assets/icons/profile-light.png" alt="profile">
+      </button>
+    </div>
+    <div id="others">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </div>
+</div>
+<ng-template cdkConnectedOverlay cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+             [cdkConnectedOverlayHasBackdrop]="true" [cdkConnectedOverlayOrigin]="trigger"
+             [cdkConnectedOverlayOpen]="isUserDropdownOpen" (detach)="isUserDropdownOpen = false"
+             (backdropClick)="isUserDropdownOpen = false">
+  <div id="dropdown-overlay">
+    <app-user-dropdown></app-user-dropdown>
+  </div>
+</ng-template>

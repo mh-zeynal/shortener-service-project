@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
+import {HttpService} from "../../shared/services/http.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,9 +12,17 @@ export class DashboardComponent implements OnInit {
 
   isUserDropdownOpen = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpService) { }
 
   ngOnInit(): void {
+    if (localStorage.getItem('data'))
+      return;
+    this.http.getBriefData().subscribe(response => {
+      if (!response.ok)
+        return;
+      let briefData = response?.body;
+      localStorage.setItem('data', JSON.stringify(briefData));
+    })
   }
 
   markAsSelected(){
