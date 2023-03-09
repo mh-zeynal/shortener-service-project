@@ -1,9 +1,14 @@
 # shortener service #
  - - - -
  # contents #
- * #### [project definition](#about-the-project)
- * #### [run without docker](#run-project-without-docker)
- * #### [run project through docker](#use-project-through-docker)
+- [shortener service](#shortener-service)
+- [contents](#contents)
+  - [About the project](#about-the-project)
+  - [run project without docker](#run-project-without-docker)
+    - [requirements](#requirements)
+    - [install dependencies](#install-dependencies)
+    - [launch](#launch)
+  - [use project through docker](#use-project-through-docker)
 ## About the project ##
 > A URL shortener service is a tool that takes a long, unwieldy web address and creates a much shorter, more manageable version of it. This shorter version of the URL is easier to share, particularly on social media sites like Twitter where character limits are in place.
 - - - -
@@ -32,13 +37,20 @@ go: downloading github.com/mattn/go-isatty v0.0.17
 ```
 npm install
 ```
+3. open your mysql command line. Then go to ___back-end/requirements___ and run these
+```
+source service_users.sql
+source urls.sql
+```
 ### launch ###
 
-1. inside ___back-end___ directory run
+1.there's a __.env__ file in ___back-end___ directory. In order to give database access the app, you can change your database details there.
+
+2. inside ___back-end___ directory run
 ```
 go run main.go
 ```
-2. inside ___front-end___ directory run
+3. inside ___front-end___ directory run
 ```
 ng serve
 ```
