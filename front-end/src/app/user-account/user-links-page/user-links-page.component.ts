@@ -39,7 +39,7 @@ export class UserLinksPageComponent implements OnInit {
   }
 
   copyUrlToClipboard(link: UrlType){
-    this.clipboard.copy('http://localhost:9090/' + link.shortUrl);
+    this.clipboard.copy('http://localhost:9090/api/' + link.shortUrl);
     this.snackBar.open('✔️' + 'url copied to clipboard', 'ok', {duration: 5000})
   }
 

@@ -9,11 +9,11 @@ import (
 func main() {
 	e := echo.New()
 	api := e.Group("/api")
-	e.GET("/:s", handlers.HandleRedirects, middleWares.AuthenticateUser)
 	api.POST("/login", handlers.LoginUser)
 	api.POST("/signup", handlers.SignUpUser)
 	api.GET("/user_urls", handlers.GetUserUrls, middleWares.AuthenticateUser)
 	api.POST("/shorten", handlers.HandleShortener, middleWares.AuthenticateUser)
+	api.GET("/:s", handlers.HandleRedirects, middleWares.AuthenticateUser)
 	api.POST("/editUrl", handlers.EditUrlRecord, middleWares.AuthenticateUser)
 	api.POST("/deleteUrl", handlers.DeleteUrl, middleWares.AuthenticateUser)
 	api.GET("/briefData", handlers.SendUserBriefData, middleWares.AuthenticateUser)
