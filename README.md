@@ -43,8 +43,8 @@ go run main.go
 ng serve
 ```
 now you can use the web app. start your journey by sending request to __http://localhost:4200/__  
-good luck :)
+good luck :simple_smile:
 - - - -
 ## use project through docker ##
 this section is in progress.  
-stay tuned ;)
+stay tuned :no_mouth:
