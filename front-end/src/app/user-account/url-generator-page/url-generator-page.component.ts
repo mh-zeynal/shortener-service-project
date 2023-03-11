@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Clipboard} from "@angular/cdk/clipboard";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {NotificationService} from "../../shared/services/notification.service";
 
 @Component({
   selector: 'app-url-generator-page',
@@ -12,7 +12,7 @@ export class UrlGeneratorPageComponent implements OnInit {
   @ViewChild('short_url') urlInput !: ElementRef<HTMLInputElement>;
   shortenedUrlValue !: string;
 
-  constructor(private clipboard: Clipboard, private snackBar: MatSnackBar) { }
+  constructor(private clipboard: Clipboard, private notification: NotificationService) { }
 
   ngOnInit(): void {
   }
@@ -21,7 +21,7 @@ export class UrlGeneratorPageComponent implements OnInit {
     if (!this.shortenedUrlValue)
       return;
     this.clipboard.copy(this.shortenedUrlValue);
-    this.snackBar.open('✔️' + 'url copied to clipboard', 'ok', {duration: 5000});
+    this.notification.triggerNotification('url copied to clipboard', 'success');
   }
 
   assignEmittedShortUrl(event: string) {

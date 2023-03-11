@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpService} from "../../shared/services/http.service";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {UrlType} from "../../shared/interfaces/url-type";
+import {HttpResponse} from "@angular/common/http";
+import {ResponseMessage} from "../../shared/interfaces/response-message";
 
 @Component({
   selector: 'app-url-generation-form',
@@ -14,7 +16,7 @@ export class UrlGenerationFormComponent implements OnInit {
   @Input() isEditing = false;
   @Input() inputUrlObject !: UrlType;
   @Output() shortUrl = new EventEmitter<string>();
-  @Output() responseMessage = new EventEmitter<string>();
+  @Output() responseMessage = new EventEmitter<HttpResponse<ResponseMessage>>();
 
   form = new FormGroup({
     title: new FormControl('', [Validators.required]),
@@ -48,7 +50,7 @@ export class UrlGenerationFormComponent implements OnInit {
       if (!this.isEditing)
         this.shortUrl.emit(response?.body?.link);
       else
-        this.responseMessage.emit(response?.body?.message);
+        this.responseMessage.emit(response);
 
     })
   }

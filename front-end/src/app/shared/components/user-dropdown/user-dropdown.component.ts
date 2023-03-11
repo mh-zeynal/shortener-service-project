@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpService} from "../../services/http.service";
 import {UserBriefData} from "../../interfaces/user-brief-data";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-user-dropdown',
@@ -14,7 +14,7 @@ export class UserDropdownComponent implements OnInit {
 
   constructor(private router: Router,
               private http: HttpService,
-              private snackBar: MatSnackBar) { }
+              private notification: NotificationService) { }
 
   ngOnInit(): void {
     let temp = localStorage.getItem('data');
@@ -45,8 +45,7 @@ export class UserDropdownComponent implements OnInit {
       if (!response?.ok)
         return;
       localStorage.removeItem('data');
-      this.snackBar.open('✔️' + response?.body?.message,
-        'ok', {duration: 5000});
+      this.notification.triggerNotificationOnResponse(response);
       this.router.navigateByUrl('account');
     })
   }

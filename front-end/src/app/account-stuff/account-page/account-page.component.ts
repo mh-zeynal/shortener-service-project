@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../shared/services/http.service";
 import {FormGroup} from "@angular/forms";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
-import {UserBriefData} from "../../shared/interfaces/user-brief-data";
+import {NotificationService} from "../../shared/services/notification.service";
 
 @Component({
   selector: 'app-account-page',
@@ -15,7 +14,7 @@ export class AccountPageComponent implements OnInit {
   hasAccount = false;
 
   constructor(private http: HttpService,
-              private snackBar: MatSnackBar, private router: Router) { }
+              private notification: NotificationService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,11 +23,7 @@ export class AccountPageComponent implements OnInit {
     this.http.sendPostRequest(url, event.value).subscribe(response => {
       let msgFlag = response?.body?.isError;
       let message = response?.body?.message;
-      if (!msgFlag)
-        message = '✔️' + message;
-      else
-        message = '❌' + message;
-      this.snackBar.open(message, 'ok', {duration: 5000})
+      this.notification.triggerNotificationOnResponse(response);
       if (!msgFlag)
         this.router.navigateByUrl('/user')
     })

@@ -1,11 +1,11 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {UrlType} from "../../shared/interfaces/url-type";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {delay} from "rxjs/operators";
-import {timer} from "rxjs";
 import {HttpService} from "../../shared/services/http.service";
+import {NotificationService} from "../../shared/services/notification.service";
+import {HttpResponse} from "@angular/common/http";
+import {ResponseMessage} from "../../shared/interfaces/response-message";
 
 @Component({
   selector: 'app-user-links-page',
@@ -13,16 +13,14 @@ import {HttpService} from "../../shared/services/http.service";
   styleUrls: ['./user-links-page.component.scss']
 })
 export class UserLinksPageComponent implements OnInit {
-  links: UrlType[] = [/*{userId: 1, title: 'css tricks', createdAt: new Date('2023-02-11T18:01:26'),
-    originalUrl: 'https://css-tricks.com',
-    shortUrl: 'Ty00R9sW', description: ''}*/];
+  links: UrlType[] = [];
   targetUrl !: UrlType;
   dialogRef !: MatDialogRef<any>;
   @ViewChild('editBox') editBox !: TemplateRef<any>;
   @ViewChild('deleteBox') deleteBox !: TemplateRef<any>;
 
   constructor(private clipboard: Clipboard,
-              private snackBar: MatSnackBar,
+              private notification: NotificationService,
               private dialog: MatDialog, private http: HttpService) { }
 
   ngOnInit(): void {
@@ -40,7 +38,7 @@ export class UserLinksPageComponent implements OnInit {
 
   copyUrlToClipboard(link: UrlType){
     this.clipboard.copy('http://localhost:9090/api/' + link.shortUrl);
-    this.snackBar.open('✔️' + 'url copied to clipboard', 'ok', {duration: 5000})
+    this.notification.triggerNotification('url copied to clipboard', 'success');
   }
 
   openUrlEditDialog(link: UrlType) {
@@ -53,8 +51,8 @@ export class UserLinksPageComponent implements OnInit {
     this.dialogRef = this.dialog.open(this.deleteBox);
   }
 
-  showMessageNotification(message: string) {
-    this.snackBar.open('✔️' + message, 'ok', {duration: 5000});
+  showMessageNotification(response: HttpResponse<ResponseMessage>) {
+    this.notification.triggerNotificationOnResponse(response);
     this.dialogRef.close();
   }
 
@@ -73,7 +71,7 @@ export class UserLinksPageComponent implements OnInit {
         if (link === this.targetUrl)
           this.links.splice(index, 1);
       })
-      this.snackBar.open('✔️' + response?.body?.message, 'ok', {duration: 5000});
+      this.notification.triggerNotificationOnResponse(response);
       this.dialogRef.close();
     })
   }
